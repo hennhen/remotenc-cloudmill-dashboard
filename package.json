@@ -4,8 +4,8 @@
   "description": "Dashboard to monitor and control CNC milling machines.",
   "main": "server.js",
   "scripts": {
-    "start": "node server",
-    "server": "nodemon server",
+    "start": "node server/server",
+    "server": "nodemon server/server",
     "client": "npm start --prefix client",
     "dev": "concurrently \"npm run server\" \"npm run client\""
   },
@@ -29,7 +29,7 @@
   },
   "devDependencies": {
     "concurrently": "^5.2.0",
-    "eslint": "^7.4.0",
+    "eslint": "^6.6.0",
     "eslint-config-prettier": "^6.11.0",
     "eslint-plugin-react": "^7.20.3",
     "husky": "^4.2.5",
