@@ -2,7 +2,7 @@
   "express_server_port": 3333,
   "port_redis": 6379,
   "udp_stream_receive_port": 57575,
-  "local_ip": "192.168.0.133",
+  "local_ip": "0.0.0.0",
   "tcp_port": 54545,
   "socket_port": 8000
 }
