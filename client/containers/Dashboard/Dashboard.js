@@ -17,9 +17,41 @@ import {
   SliderBox
 } from '../../components';
 import { rem } from 'polished';
+import { withStyles } from '@material-ui/core/styles';
+import { green, red, yellow } from '@material-ui/core/colors';
 
 const topheight = rem('420px');
 const bottomheight = rem('270px');
+
+const GreenButton = withStyles((theme) => ({
+  root: {
+    color: theme.palette.getContrastText(green[700]),
+    backgroundColor: green[700],
+    '&:hover': {
+      backgroundColor: green[900]
+    }
+  }
+}))(Button);
+
+const RedButton = withStyles((theme) => ({
+  root: {
+    color: theme.palette.getContrastText(red[700]),
+    backgroundColor: red[700],
+    '&:hover': {
+      backgroundColor: red[900]
+    }
+  }
+}))(Button);
+
+const YellowButton = withStyles((theme) => ({
+  root: {
+    color: theme.palette.getContrastText(yellow[700]),
+    backgroundColor: yellow[700],
+    '&:hover': {
+      backgroundColor: yellow[800]
+    }
+  }
+}))(Button);
 
 const Dashbaord = () => {
   return (
@@ -92,19 +124,19 @@ const Dashbaord = () => {
             <Grid item xs={3}>
               <Grid container direction='column' spacing={2}>
                 <Grid item>
-                  <Button color='primary' variant='contained' fullWidth>
+                  <GreenButton color='primary' variant='contained' fullWidth>
                     Start
-                  </Button>
+                  </GreenButton>
                 </Grid>
                 <Grid item>
-                  <Button color='primary' variant='contained' fullWidth>
+                  <RedButton color='primary' variant='contained' fullWidth>
                     Stop
-                  </Button>
+                  </RedButton>
                 </Grid>
                 <Grid item>
-                  <Button color='primary' variant='contained' fullWidth>
+                  <YellowButton color='primary' variant='contained' fullWidth>
                     Pause
-                  </Button>
+                  </YellowButton>
                 </Grid>
               </Grid>
             </Grid>

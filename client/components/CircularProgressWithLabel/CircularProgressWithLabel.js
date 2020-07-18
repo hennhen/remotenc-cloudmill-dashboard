@@ -2,11 +2,23 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { CircularProgress, Typography, Box } from '@material-ui/core';
 import { rem } from 'polished';
+import { withStyles } from '@material-ui/core/styles';
+import { green } from '@material-ui/core/colors';
+
+const GreenCircularProgress = withStyles(() => ({
+  root: {
+    color: green[500]
+  }
+}))(CircularProgress);
 
 const CircularProgressWithLabel = (props) => {
   return (
     <Box position='relative' display='inline-flex'>
-      <CircularProgress variant='static' {...props} size={`${rem('150px')}`} />
+      <GreenCircularProgress
+        variant='static'
+        {...props}
+        size={`${rem('150px')}`}
+      />
       <Box
         top={0}
         left={0}

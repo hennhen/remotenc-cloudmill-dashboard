@@ -13,6 +13,18 @@ import {
 } from '@material-ui/core';
 import styled from 'styled-components';
 import { rem } from 'polished';
+import { withStyles } from '@material-ui/core/styles';
+import { green } from '@material-ui/core/colors';
+
+const GreenButton = withStyles((theme) => ({
+  root: {
+    color: theme.palette.getContrastText(green[500]),
+    backgroundColor: green[500],
+    '&:hover': {
+      backgroundColor: green[700]
+    }
+  }
+}))(Button);
 
 const StyledCard = styled(Card)`
   margin-bottom: ${rem('32px')};
@@ -63,7 +75,7 @@ const MachineBox = ({ history, number, clientName, jobName }) => {
               autoComplete='current-password'
               variant='filled'
             />
-            <Button
+            <GreenButton
               color='primary'
               variant='contained'
               style={{ marginLeft: rem('12px') }}
@@ -72,7 +84,7 @@ const MachineBox = ({ history, number, clientName, jobName }) => {
               }}
             >
               CONNECT
-            </Button>
+            </GreenButton>
           </Grid>
         </CardActions>
       )}

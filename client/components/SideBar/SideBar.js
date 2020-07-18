@@ -3,11 +3,14 @@ import { Grid, Typography } from '@material-ui/core';
 import { CircularProgressWithLabel } from '..';
 import styled from 'styled-components';
 import { rem } from 'polished';
+import { green } from '@material-ui/core/colors';
 
 const Circle = styled.div`
   height: ${rem('50px')};
   width: ${rem('50px')};
-  background-color: #27863c;
+  background-color: ${() => {
+    return green[500];
+  }};
   border-radius: 50%;
   margin-right: ${rem('15px')};
 `;
