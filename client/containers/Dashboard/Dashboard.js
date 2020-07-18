@@ -1,12 +1,13 @@
 import React from 'react';
 import { Container, Grid, Divider } from '@material-ui/core';
+import { Header } from '../../components';
 
 const Dashbaord = () => {
   return (
     <Container>
       <Grid container spacing={3}>
         <Grid item xs={12}>
-          HEADER
+          <Header />
           <Divider />
         </Grid>
         <Grid item xs={2}>
