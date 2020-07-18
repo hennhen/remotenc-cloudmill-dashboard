@@ -5,3 +5,5 @@ export { default as CircularProgressWithLabel } from './CircularProgressWithLabe
 export { default as Webcam } from './Webcam/Webcam';
 export { default as DataBox } from './DataBox/DataBox';
 export { default as GCodeBox } from './GCodeBox/GCodeBox';
+export { default as SettingBox } from './SettingBox/SettingBox';
+export { default as SliderBox } from './SliderBox/SliderBox';
