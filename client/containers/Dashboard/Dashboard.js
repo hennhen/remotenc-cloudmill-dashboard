@@ -164,7 +164,7 @@ const Dashbaord = () => {
                 <Grid item>
                   <SettingBox name='Coolant'>
                     <Grid container justify='flex-end'>
-                      <Switch />
+                      <Switch color='primary' />
                     </Grid>
                   </SettingBox>
                 </Grid>
