@@ -1,26 +1,24 @@
 import React from 'react';
-import { Button } from '@material-ui/core';
-import PropTypes from 'prop-types';
+import { Container, Grid, Divider } from '@material-ui/core';
 
-const Dashbaord = ({ history }) => {
+const Dashbaord = () => {
   return (
-    <>
-      <p>Dashbaord Page</p>
-      <Button
-        color='primary'
-        variant='contained'
-        onClick={() => {
-          history.push('/');
-        }}
-      >
-        Logout
-      </Button>
-    </>
+    <Container>
+      <Grid container spacing={3}>
+        <Grid item xs={12}>
+          HEADER
+          <Divider />
+        </Grid>
+        <Grid item xs={2}>
+          SideBar
+        </Grid>
+        <Divider orientation='vertical' flexItem />
+        <Grid item xs={9}>
+          Content
+        </Grid>
+      </Grid>
+    </Container>
   );
-};
-
-Dashbaord.propTypes = {
-  history: PropTypes.object
 };
 
 export default Dashbaord;
