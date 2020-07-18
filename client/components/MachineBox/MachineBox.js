@@ -56,7 +56,13 @@ const MachineBox = ({ history, number, clientName, jobName }) => {
       {open && (
         <CardActions>
           <Grid container justify='center'>
-            <TextField label='Password' id='filled-basic' variant='filled' />
+            <TextField
+              id='filled-password-input'
+              label='Password'
+              type='password'
+              autoComplete='current-password'
+              variant='filled'
+            />
             <Button
               color='primary'
               variant='contained'
