@@ -10,7 +10,6 @@ module.exports = {
     filename: 'bundle.js',
     chunkFilename: '[id].js'
   },
-  mode: 'development',
   resolve: {
     extensions: ['.js', '.jsx']
   },
@@ -38,5 +37,9 @@ module.exports = {
       filename: 'index.html',
       inject: 'body'
     })
-  ]
+  ],
+  devServer: {
+    port: 3000,
+    historyApiFallback: true
+  }
 };

@@ -1,9 +1,17 @@
-import React, { Component } from 'react';
+import React from 'react';
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
 
-class App extends Component {
-  render() {
-    return <h1> Hello, World! </h1>;
-  }
-}
+import { Auth, Dashboard } from './containers';
+
+const App = () => {
+  let routes = (
+    <Switch>
+      <Route path='/dashboard' component={Dashboard} />
+      <Route path='/' component={Auth} />
+    </Switch>
+  );
+
+  return <BrowserRouter>{routes}</BrowserRouter>;
+};
 
 export default App;

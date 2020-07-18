@@ -2,7 +2,7 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
-  devtool: 'none',
+  devtool: 'cheap-module-eval-source-map',
   entry: './client/index.js',
   output: {
     path: path.resolve(__dirname, 'dist'),
