@@ -1,26 +1,29 @@
 import React from 'react';
-import { Button } from '@material-ui/core';
-import PropTypes from 'prop-types';
+import { Typography, Container } from '@material-ui/core';
+import { MachineBox } from '../../components';
 
-const Auth = ({ history }) => {
+const TEMP_DATA = [
+  { number: 1, clientName: 'Henry Wu', jobName: 'Aluminum Clevis Mount' },
+  { number: 2, clientName: 'Baltazar Ruiz', jobName: '6061 Bellcrank Shaft' },
+  { number: 3, clientName: 'Alex Mei', jobName: '57839-78' }
+];
+
+const Auth = () => {
   return (
-    <>
-      <p>Auth Page</p>
-      <Button
-        color='primary'
-        variant='contained'
-        onClick={() => {
-          history.push('/dashboard');
-        }}
-      >
-        Login
-      </Button>
-    </>
+    <Container maxWidth='md'>
+      <Typography variant='h5' gutterBottom>
+        Please Select a Machine to Connect:
+      </Typography>
+      {TEMP_DATA.map(({ number, clientName, jobName }) => (
+        <MachineBox
+          number={number}
+          clientName={clientName}
+          jobName={jobName}
+          key={number}
+        />
+      ))}
+    </Container>
   );
-};
-
-Auth.propTypes = {
-  history: PropTypes.object
 };
 
 export default Auth;
