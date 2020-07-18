@@ -1,6 +1,6 @@
 import React from 'react';
 import { Container, Grid, Divider } from '@material-ui/core';
-import { Header } from '../../components';
+import { Header, SideBar } from '../../components';
 
 const Dashbaord = () => {
   return (
@@ -11,7 +11,7 @@ const Dashbaord = () => {
           <Divider />
         </Grid>
         <Grid item xs={2}>
-          SideBar
+          <SideBar />
         </Grid>
         <Divider orientation='vertical' flexItem />
         <Grid item xs={9}>
