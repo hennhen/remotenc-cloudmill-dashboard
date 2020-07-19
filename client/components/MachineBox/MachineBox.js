@@ -45,7 +45,6 @@ const MachineBox = ({ history, number, clientName, jobName }) => {
   const { socket } = useContext(SocketContext);
 
   const connect = async () => {
-    console.log(socket);
     if (!socket) return;
     const response = await axios.post('/auth', {
       socket_id: socket.id,
