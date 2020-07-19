@@ -7,3 +7,4 @@ export { default as DataBox } from './DataBox/DataBox';
 export { default as GCodeBox } from './GCodeBox/GCodeBox';
 export { default as SettingBox } from './SettingBox/SettingBox';
 export { default as SliderBox } from './SliderBox/SliderBox';
+export { default as Circle } from './Circle/Circle';

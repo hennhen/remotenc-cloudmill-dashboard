@@ -1,19 +1,7 @@
 import React from 'react';
 import { Grid, Typography } from '@material-ui/core';
-import { CircularProgressWithLabel } from '..';
-import styled from 'styled-components';
-import { rem } from 'polished';
+import { CircularProgressWithLabel, Circle } from '..';
 import { green } from '@material-ui/core/colors';
-
-const Circle = styled.div`
-  height: ${rem('50px')};
-  width: ${rem('50px')};
-  background-color: ${() => {
-    return green[500];
-  }};
-  border-radius: 50%;
-  margin-right: ${rem('15px')};
-`;
 
 const SideBar = () => {
   return (
@@ -45,7 +33,7 @@ const SideBar = () => {
           justify='flex-start'
           alignItems='center'
         >
-          <Circle />
+          <Circle color={green[500]} />
           <Typography variant='h5'>Running</Typography>
         </Grid>
       </Grid>

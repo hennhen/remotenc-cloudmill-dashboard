@@ -11,7 +11,6 @@ import {
   TextField,
   Grid
 } from '@material-ui/core';
-import styled from 'styled-components';
 import { rem } from 'polished';
 import { withStyles } from '@material-ui/core/styles';
 import { green } from '@material-ui/core/colors';
@@ -26,27 +25,23 @@ const GreenButton = withStyles((theme) => ({
   }
 }))(Button);
 
-const StyledCard = styled(Card)`
-  margin-bottom: ${rem('32px')};
-`;
-
-const StyledGrid = styled(Grid)`
-  width: fit-content;
-  & h3 {
-    margin: ${rem('12px')};
+const StyledGrid = withStyles(() => ({
+  root: {
+    '& h3': {
+      margin: rem('12px')
+    },
+    '& h5': {
+      margin: rem('24px')
+    },
+    cursor: 'pointer'
   }
-  & h5 {
-    margin: ${rem('24px')};
-  }
-
-  cursor: pointer;
-`;
+}))(Grid);
 
 const MachineBox = ({ history, number, clientName, jobName }) => {
   const [open, setOpen] = useState(false);
 
   return (
-    <StyledCard raised>
+    <Card raised style={{ margin: rem('32px') }}>
       <CardContent>
         <StyledGrid
           container
@@ -88,7 +83,7 @@ const MachineBox = ({ history, number, clientName, jobName }) => {
           </Grid>
         </CardActions>
       )}
-    </StyledCard>
+    </Card>
   );
 };
 
