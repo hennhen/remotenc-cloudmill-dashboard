@@ -92,19 +92,19 @@ const Dashbaord = () => {
                 style={{ height: topheight }}
               >
                 <Grid item>
-                  <DataBox label='X' value='500'></DataBox>
+                  <DataBox label='X' value='500.00'></DataBox>
                 </Grid>
                 <Grid item>
-                  <DataBox label='Y' value='500'></DataBox>
+                  <DataBox label='Y' value='500.00'></DataBox>
                 </Grid>
                 <Grid item>
-                  <DataBox label='R' value='500'></DataBox>
+                  <DataBox label='Z' value='500.00'></DataBox>
                 </Grid>
                 <Grid item>
-                  <DataBox label='A' value='500'></DataBox>
+                  <DataBox label='A' value='500.00'></DataBox>
                 </Grid>
                 <Grid item>
-                  <DataBox label='C' value='500'></DataBox>
+                  <DataBox label='C' value='500.00'></DataBox>
                 </Grid>
               </Grid>
             </Grid>
