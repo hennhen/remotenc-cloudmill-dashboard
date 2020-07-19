@@ -1,9 +1,26 @@
-import React from 'react';
+import React, { useContext, useEffect } from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
-
+import io from 'socket.io-client';
+import axios from 'axios';
 import { Auth, Dashboard } from './containers';
+import { SocketContext } from './context';
+
+axios.defaults.baseURL = 'http://0.0.0.0:3333';
 
 const App = () => {
+  const { setSocket } = useContext(SocketContext);
+
+  useEffect(() => {
+    const socketConnect = async () => {
+      const socket = await io('0.0.0.0:3333');
+      socket.on('connect', () => {
+        setSocket(socket);
+      });
+    };
+
+    socketConnect();
+  }, []);
+
   let routes = (
     <Switch>
       <Route path='/dashboard' component={Dashboard} />

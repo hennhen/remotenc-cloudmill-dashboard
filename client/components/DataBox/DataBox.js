@@ -13,7 +13,7 @@ const DataBox = ({ label, value }) => {
           </Grid>
           <Grid item xs={4}>
             <Grid container justify='center'>
-              <Typography variant='h4'>{value}</Typography>
+              <Typography variant='h4'>{value.toFixed(3)}</Typography>
             </Grid>
           </Grid>
           <Grid item xs={4}>
@@ -29,7 +29,7 @@ const DataBox = ({ label, value }) => {
 
 DataBox.propTypes = {
   label: PropTypes.string,
-  value: PropTypes.string
+  value: PropTypes.number
 };
 
 export default DataBox;

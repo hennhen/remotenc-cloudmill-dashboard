@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import {
@@ -14,6 +14,8 @@ import {
 import { rem } from 'polished';
 import { withStyles } from '@material-ui/core/styles';
 import { green } from '@material-ui/core/colors';
+import axios from 'axios';
+import { SocketContext } from '../../context';
 
 const GreenButton = withStyles((theme) => ({
   root: {
@@ -39,6 +41,21 @@ const StyledGrid = withStyles(() => ({
 
 const MachineBox = ({ history, number, clientName, jobName }) => {
   const [open, setOpen] = useState(false);
+  const [input, setInput] = useState('');
+  const { socket } = useContext(SocketContext);
+
+  const connect = async () => {
+    console.log(socket);
+    if (!socket) return;
+    const response = await axios.post('/auth', {
+      socket_id: socket.id,
+      target_ip: '192.168.0.108',
+      target_port: '55555',
+      auth_password: input
+    });
+    if (response.status !== 200) return;
+    history.push('/dashboard');
+  };
 
   return (
     <Card raised style={{ margin: rem('32px') }}>
@@ -69,14 +86,14 @@ const MachineBox = ({ history, number, clientName, jobName }) => {
               type='password'
               autoComplete='current-password'
               variant='filled'
+              value={input}
+              onChange={(event) => setInput(event.target.value)}
             />
             <GreenButton
               color='primary'
               variant='contained'
               style={{ marginLeft: rem('12px') }}
-              onClick={() => {
-                history.push('/dashboard');
-              }}
+              onClick={connect}
             >
               CONNECT
             </GreenButton>

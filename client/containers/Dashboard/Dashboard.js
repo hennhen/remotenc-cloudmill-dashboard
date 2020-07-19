@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import {
   Container,
   Grid,
@@ -19,6 +19,8 @@ import {
 import { rem } from 'polished';
 import { withStyles } from '@material-ui/core/styles';
 import { green, red, yellow } from '@material-ui/core/colors';
+import { SocketContext } from '../../context';
+import PropTypes from 'prop-types';
 
 const topheight = rem('420px');
 const bottomheight = rem('270px');
@@ -53,7 +55,18 @@ const YellowButton = withStyles((theme) => ({
   }
 }))(Button);
 
-const Dashbaord = () => {
+const Dashboard = ({ history }) => {
+  const { socket } = useContext(SocketContext);
+  const [data, setData] = useState({ x: 0, y: 0, z: 0, a: 0, c: 0 });
+
+  useEffect(() => {
+    if (!socket) return history.push('/');
+    socket.on('udpData', (data) => {
+      const { coors } = JSON.parse(data);
+      setData({ ...coors, a: 0, c: 0 });
+    });
+  }, []);
+
   return (
     <Container>
       <Grid container spacing={3}>
@@ -92,19 +105,19 @@ const Dashbaord = () => {
                 style={{ height: topheight }}
               >
                 <Grid item>
-                  <DataBox label='X' value='500.00'></DataBox>
+                  <DataBox label='X' value={data.x}></DataBox>
                 </Grid>
                 <Grid item>
-                  <DataBox label='Y' value='500.00'></DataBox>
+                  <DataBox label='Y' value={data.y}></DataBox>
                 </Grid>
                 <Grid item>
-                  <DataBox label='Z' value='500.00'></DataBox>
+                  <DataBox label='Z' value={data.z}></DataBox>
                 </Grid>
                 <Grid item>
-                  <DataBox label='A' value='500.00'></DataBox>
+                  <DataBox label='A' value={data.a}></DataBox>
                 </Grid>
                 <Grid item>
-                  <DataBox label='C' value='500.00'></DataBox>
+                  <DataBox label='C' value={data.c}></DataBox>
                 </Grid>
               </Grid>
             </Grid>
@@ -183,4 +196,8 @@ const Dashbaord = () => {
   );
 };
 
-export default Dashbaord;
+Dashboard.propTypes = {
+  history: PropTypes.object
+};
+
+export default Dashboard;

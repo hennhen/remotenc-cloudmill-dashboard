@@ -2,7 +2,6 @@ const config = require('config');
 //============== Express Stuff =================
 const path = require('path');
 var express = require('express');
-const bodyParser = require('body-parser');
 // const router = express.Router();
 var app = express();
 
@@ -24,7 +23,7 @@ var ip_socket_map = {};
 
 //===============Socekts (UDP/TCP)===============
 const socketServer = require('socket.io')();
-// const UDPSOCKET = require('./UDPSocket');
+const UDPSOCKET = require('./UDPSocket');
 // const UDPBroadcast = require('./UDPBroadcast');
 const TCP = require('./TCPClient'); // Instantiates and start TCP server
 var tcp = new TCP();
@@ -32,14 +31,13 @@ var tcp = new TCP();
 socketServer.listen(httpServer);
 
 // Pass in the httpServer object to be reused for socket.io
-// var udpSocket = new UDPSOCKET(httpServer, socketServer, ip_socket_map);
+// eslint-disable-next-line no-unused-vars
+var udpSocket = new UDPSOCKET(httpServer, socketServer, ip_socket_map);
 
 //=====================
-var cors = require('cors');
 
-app.use(cors());
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json());
+app.use(express.json());
+app.use(require('cors')());
 app.use(express.static(path.join(__dirname, 'build')));
 
 //================== EXPRESS ROUTES ===================
@@ -72,6 +70,7 @@ app.use((req, res, next) => {
 
 app.post('/auth', (req, res) => {
   console.log(req.body);
+  // res.send('auth route');
   tcp.sendAuthRequest(req.body, (result) => {
     //TODO: Directly get result's status code into the status code
     const JSONresult = JSON.parse(result);
