@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect } from 'react';
+import React, { useContext, useState, useEffect, useRef } from 'react';
 import {
   Container,
   Grid,
@@ -10,7 +10,7 @@ import {
 import {
   Header,
   SideBar,
-  Webcam,
+  Video,
   DataBox,
   GCodeBox,
   SettingBox,
@@ -58,6 +58,10 @@ const YellowButton = withStyles((theme) => ({
 const Dashboard = ({ history }) => {
   const { socket } = useContext(SocketContext);
   const [data, setData] = useState({ x: 0, y: 0, z: 0, a: 0, c: 0 });
+  const [stream, setStream] = useState();
+
+  const videoOne = useRef();
+  const videoTwo = useRef();
 
   useEffect(() => {
     if (!socket) return history.push('/');
@@ -65,6 +69,20 @@ const Dashboard = ({ history }) => {
       const { coors } = JSON.parse(data);
       setData({ ...coors, a: 0, c: 0 });
     });
+
+    const connectVideo = async () => {
+      const webcamStream = await navigator.mediaDevices.getUserMedia({
+        video: true
+      });
+
+      setStream(webcamStream);
+      if (videoOne.current && videoTwo.current) {
+        videoOne.current.srcObject = webcamStream;
+        videoTwo.current.srcObject = webcamStream;
+      }
+    };
+
+    connectVideo();
   }, []);
 
   return (
@@ -85,15 +103,11 @@ const Dashboard = ({ history }) => {
                 container
                 direction='column'
                 justify='space-between'
-                alignItems='stretch'
+                alignItems='flex-start'
                 style={{ height: topheight }}
               >
-                <Grid item>
-                  <Webcam />
-                </Grid>
-                <Grid item>
-                  <Webcam />
-                </Grid>
+                <Grid item>{stream && <Video ref={videoOne} />}</Grid>
+                <Grid item>{stream && <Video ref={videoTwo} />}</Grid>
               </Grid>
             </Grid>
             <Grid item xs={4}>
