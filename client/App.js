@@ -21,7 +21,7 @@ const App = () => {
     socketConnect();
   }, []);
 
-  let routes = (
+  const routes = (
     <Switch>
       <Route path='/dashboard' component={Dashboard} />
       <Route path='/' component={Auth} />

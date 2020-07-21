@@ -70,7 +70,7 @@ app.use((req, res, next) => {
 
 app.post('/auth', (req, res) => {
   console.log(req.body);
-  // res.send('auth route');
+  if (config.dev) return res.status(200).end('dev mode');
   tcp.sendAuthRequest(req.body, (result) => {
     //TODO: Directly get result's status code into the status code
     const JSONresult = JSON.parse(result);
