@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect, useRef } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import {
   Container,
   Grid,
@@ -16,6 +16,7 @@ import {
   SettingBox,
   SliderBox
 } from '../../components';
+import { useWebRTC } from '../../hooks';
 import { rem } from 'polished';
 import { withStyles } from '@material-ui/core/styles';
 import { green, red, yellow } from '@material-ui/core/colors';
@@ -58,10 +59,17 @@ const YellowButton = withStyles((theme) => ({
 const Dashboard = ({ history }) => {
   const { socket } = useContext(SocketContext);
   const [data, setData] = useState({ x: 0, y: 0, z: 0, a: 0, c: 0 });
-  const [stream, setStream] = useState();
 
-  const videoOne = useRef();
-  const videoTwo = useRef();
+  const [
+    users,
+    videoOne,
+    videoTwo,
+    stream,
+    callAccepted,
+    receivingCall,
+    callPeer,
+    acceptCall
+  ] = useWebRTC();
 
   useEffect(() => {
     if (!socket) return history.push('/');
@@ -69,20 +77,6 @@ const Dashboard = ({ history }) => {
       const { coors } = JSON.parse(data);
       setData({ ...coors, a: 0, c: 0 });
     });
-
-    const connectVideo = async () => {
-      const webcamStream = await navigator.mediaDevices.getUserMedia({
-        video: true
-      });
-
-      setStream(webcamStream);
-      if (videoOne.current && videoTwo.current) {
-        videoOne.current.srcObject = webcamStream;
-        videoTwo.current.srcObject = webcamStream;
-      }
-    };
-
-    connectVideo();
   }, []);
 
   return (
@@ -107,7 +101,7 @@ const Dashboard = ({ history }) => {
                 style={{ height: topheight }}
               >
                 <Grid item>{stream && <Video ref={videoOne} />}</Grid>
-                <Grid item>{stream && <Video ref={videoTwo} />}</Grid>
+                <Grid item>{callAccepted && <Video ref={videoTwo} />}</Grid>
               </Grid>
             </Grid>
             <Grid item xs={4}>
@@ -206,6 +200,21 @@ const Dashboard = ({ history }) => {
           </Grid>
         </Grid>
       </Grid>
+      {Object.keys(users).map((id, idx) => (
+        <Button
+          color='primary'
+          variant='contained'
+          onClick={() => callPeer(id)}
+          key={id}
+        >
+          Call Peer #{idx + 1}
+        </Button>
+      ))}
+      {receivingCall && (
+        <Button color='primary' variant='contained' onClick={acceptCall}>
+          Accept Call
+        </Button>
+      )}
     </Container>
   );
 };

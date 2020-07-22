@@ -20,6 +20,7 @@ var httpServer = app.listen(
 
 //============Dict==========
 var ip_socket_map = {};
+const users = {};
 
 //===============Socekts (UDP/TCP)===============
 const socketServer = require('socket.io')();
@@ -32,7 +33,7 @@ socketServer.listen(httpServer);
 
 // Pass in the httpServer object to be reused for socket.io
 // eslint-disable-next-line no-unused-vars
-var udpSocket = new UDPSOCKET(httpServer, socketServer, ip_socket_map);
+var udpSocket = new UDPSOCKET(httpServer, socketServer, ip_socket_map, users);
 
 //=====================
 

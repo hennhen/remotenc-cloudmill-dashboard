@@ -4,7 +4,7 @@ const _UDP_PORT = require('config').udp_stream_receive_port;
 
 module.exports = class UDPReceiver {
   // Passed in an httpServer to be reused with socket.io
-  constructor(server, socketServer, ip_socket_map) {
+  constructor(server, socketServer, ip_socket_map, users) {
     // ============= UDP setups ============
     var udpServer = dgram.createSocket('udp4');
 
@@ -22,7 +22,7 @@ module.exports = class UDPReceiver {
 
     // ============= Sockets ==============
 
-    socketServer.on('connection', () => {
+    socketServer.on('connection', (socket) => {
       console.log('Socket client connected');
       console.log('List of clients: ');
       console.log(Object.keys(socketServer.sockets.sockets));
@@ -33,6 +33,28 @@ module.exports = class UDPReceiver {
       //    );
       //    socketClient.emit("udpData", msg.toString());
       // });
+
+      if (!users[socket.id]) {
+        users[socket.id] = socket.id;
+      }
+      socket.on('disconnect', () => {
+        delete users[socket.id];
+      });
+
+      socket.on('callUser', (data) => {
+        socketServer.to(data.userToCall).emit('hey', {
+          signal: data.signalData,
+          from: data.from
+        });
+      });
+
+      socket.on('acceptCall', (data) => {
+        socketServer.to(data.to).emit('callAccepted', data.signal);
+      });
+
+      socket.on('webrtc', () => {
+        socketServer.sockets.emit('allUsers', users);
+      });
     });
 
     socketServer.on('disconnect', () => {
