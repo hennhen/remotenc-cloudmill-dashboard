@@ -47,10 +47,10 @@ const MachineBox = ({ history, number, clientName, jobName }) => {
   const connect = async () => {
     if (!socket) return;
     const response = await axios.post('/auth', {
-      socket_id: socket.id,
-      target_ip: '192.168.0.108',
-      target_port: '55555',
-      auth_password: input
+      socketID: socket.id,
+      targetIP: '192.168.0.108',
+      targetPort: '55555',
+      password: input
     });
     if (response.status !== 200) return;
     history.push('/dashboard');

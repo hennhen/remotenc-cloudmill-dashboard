@@ -1,7 +1,7 @@
 const dgram = require('dgram');
 
-module.exports = function UDPDiscover(cb) {
-  var udpServer = dgram.createSocket('udp4');
+const UDPDiscover = (cb) => {
+  const udpServer = dgram.createSocket('udp4');
 
   udpServer.on('error', (err) => {
     console.log(`server error:\n${err.stack}`);
@@ -24,3 +24,5 @@ module.exports = function UDPDiscover(cb) {
   udpServer.setBroadcast(true);
   udpServer.send('BROADCAST', 56189, '255.255.255.255');
 };
+
+module.exports = UDPDiscover;
