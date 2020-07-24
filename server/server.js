@@ -19,8 +19,6 @@ const httpServer = app.listen(
 
 //============Dict==========
 const ipSocketMap = {};
-const users = {};
-
 //===============Socekts (UDP/TCP)===============
 const io = require('socket.io')();
 const udpSocket = require('./UDPSocket');
@@ -31,7 +29,7 @@ const tcp = new TCP();
 io.listen(httpServer);
 
 // Pass in the httpServer object to be reused for socket.io
-udpSocket(httpServer, io, ipSocketMap, users);
+udpSocket(httpServer, io, ipSocketMap);
 
 //=====================
 
@@ -52,7 +50,7 @@ app.post('/auth', (req, res) => {
   console.log(req.body);
 
   // DEV MODE
-  if (config.dev) return res.status(200).end('dev mode');
+  if (config.dev) return res.status(200).end();
 
   tcp.sendAuthRequest(req.body, (result) => {
     //TODO: Directly get result's status code into the status code
@@ -84,4 +82,13 @@ app.post('/command', (req, res) => {
   tcp.sendCommand(req.body, (result) => {
     res.end(result);
   });
+});
+
+app.post('/video', (req, res) => {
+  const {
+    body: { socketID, signal }
+  } = req;
+
+  io.to(socketID).emit('video', signal);
+  res.status(200).end();
 });

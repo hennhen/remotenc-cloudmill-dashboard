@@ -60,16 +60,7 @@ const Dashboard = ({ history }) => {
   const { socket } = useContext(SocketContext);
   const [data, setData] = useState({ x: 0, y: 0, z: 0, a: 0, c: 0 });
 
-  const [
-    users,
-    videoOne,
-    videoTwo,
-    stream,
-    callAccepted,
-    receivingCall,
-    callPeer,
-    acceptCall
-  ] = useWebRTC();
+  const [videoOne, videoTwo, stream] = useWebRTC();
 
   useEffect(() => {
     if (!socket) return history.push('/');
@@ -101,7 +92,7 @@ const Dashboard = ({ history }) => {
                 style={{ height: topheight }}
               >
                 <Grid item>{stream && <Video ref={videoOne} />}</Grid>
-                <Grid item>{callAccepted && <Video ref={videoTwo} />}</Grid>
+                <Grid item>{stream && <Video ref={videoTwo} />}</Grid>
               </Grid>
             </Grid>
             <Grid item xs={4}>
@@ -200,21 +191,6 @@ const Dashboard = ({ history }) => {
           </Grid>
         </Grid>
       </Grid>
-      {Object.keys(users).map((id, idx) => (
-        <Button
-          color='primary'
-          variant='contained'
-          onClick={() => callPeer(id)}
-          key={id}
-        >
-          Call Peer #{idx + 1}
-        </Button>
-      ))}
-      {receivingCall && (
-        <Button color='primary' variant='contained' onClick={acceptCall}>
-          Accept Call
-        </Button>
-      )}
     </Container>
   );
 };

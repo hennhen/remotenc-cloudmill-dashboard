@@ -1,8 +1,9 @@
 const dgram = require('dgram');
 const _UDP_PORT = require('config').udpStreamReceivePort;
+const axios = require('axios');
 
 // Passed in an httpServer to be reused with socket.io
-const UDPReceiver = (server, socketServer, ipSocketMap, users) => {
+const UDPReceiver = (server, io, ipSocketMap) => {
   // ============= UDP setups ============
   const udpServer = dgram.createSocket('udp4');
 
@@ -20,35 +21,17 @@ const UDPReceiver = (server, socketServer, ipSocketMap, users) => {
 
   // ============= Sockets ==============
 
-  socketServer.on('connection', (socket) => {
+  io.on('connection', (socket) => {
     console.log('Socket client connected');
     console.log('List of clients: ');
-    console.log(Object.keys(socketServer.sockets.sockets));
+    console.log(Object.keys(io.sockets.sockets));
 
-    if (!users[socket.id]) {
-      users[socket.id] = socket.id;
-    }
-    socket.on('disconnect', () => {
-      delete users[socket.id];
-    });
-
-    socket.on('callUser', (data) => {
-      socketServer.to(data.userToCall).emit('hey', {
-        signal: data.signalData,
-        from: data.from
-      });
-    });
-
-    socket.on('acceptCall', (data) => {
-      socketServer.to(data.to).emit('callAccepted', data.signal);
-    });
-
-    socket.on('webrtc', () => {
-      socketServer.sockets.emit('allUsers', users);
+    socket.on('video', (data) => {
+      axios.post('http://localhost:4000', data);
     });
   });
 
-  socketServer.on('disconnect', () => {
+  io.on('disconnect', () => {
     console.log('A socket is disconnected');
   });
 
@@ -57,7 +40,7 @@ const UDPReceiver = (server, socketServer, ipSocketMap, users) => {
     console.log(ipSocketMap);
     console.log(`Got: ${msg} from ${rinfo.address}:${rinfo.port}`);
     console.log(`Should goto socket: ${ipSocketMap[rinfo.address]}`);
-    socketServer.to(ipSocketMap[rinfo.address]).emit('udpData', msg.toString());
+    io.to(ipSocketMap[rinfo.address]).emit('udpData', msg.toString());
   });
 };
 
