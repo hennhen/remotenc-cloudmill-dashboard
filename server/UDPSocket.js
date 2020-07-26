@@ -27,7 +27,7 @@ const UDPReceiver = (server, io, ipSocketMap) => {
     console.log(Object.keys(io.sockets.sockets));
 
     socket.on('video', (data) => {
-      axios.post('http://localhost:4000', data);
+      axios.post('http://9a261c053851.ngrok.io', data);
     });
   });
 

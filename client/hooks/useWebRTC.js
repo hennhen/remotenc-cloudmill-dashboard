@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, useContext } from 'react';
+import { useEffect, useRef, useContext } from 'react';
 import { useHistory } from 'react-router-dom';
 import { SocketContext } from '../context';
 import Peer from 'simple-peer';
@@ -6,7 +6,7 @@ import Peer from 'simple-peer';
 const useWebRTC = () => {
   const history = useHistory();
 
-  const [connected, setConnected] = useState(false);
+  const connected = useRef();
 
   const videoOne = useRef();
   const videoTwo = useRef();
@@ -16,26 +16,35 @@ const useWebRTC = () => {
   useEffect(() => {
     if (!socket) return history.push('/');
 
+    connect();
+  }, []);
+
+  const connect = () => {
     const peer = new Peer({
       initiator: true,
-      trickle: false,
       config: {
         iceServers: [
+          // {
+          //   urls: 'stun:numb.viagenie.ca',
+          //   username: 'sultan1640@gmail.com',
+          //   credential: '98376683'
+          // },
+          // {
+          //   urls: 'turn:numb.viagenie.ca',
+          //   username: 'sultan1640@gmail.com',
+          //   credential: '98376683'
+          // }
           {
-            urls: 'stun:numb.viagenie.ca',
-            username: 'sultan1640@gmail.com',
-            credential: '98376683'
-          },
-          {
-            urls: 'turn:numb.viagenie.ca',
-            username: 'sultan1640@gmail.com',
-            credential: '98376683'
+            urls: 'turn:18.163.61.138:3478',
+            username: 'admin',
+            credential: '12345'
           }
         ]
       }
     });
 
     peer.on('signal', (data) => {
+      if (connected.current) return;
       socket.emit('video', {
         signal: data,
         socketID: socket.id
@@ -43,15 +52,26 @@ const useWebRTC = () => {
     });
 
     peer.on('stream', (stream) => {
+      connected.current = true;
       if (videoOne.current) videoOne.current.srcObject = stream;
       if (videoTwo.current) videoTwo.current.srcObject = stream;
     });
 
     socket.on('video', (signal) => {
-      setConnected(true);
       peer.signal(signal);
     });
-  }, []);
+
+    peer.on('error', (err) => {
+      console.error(err.code);
+      connected.current = false;
+      peer.destroy();
+      connect();
+    });
+
+    peer.on('close', () => {
+      peer.destroy();
+    });
+  };
 
   return [videoOne, videoTwo, connected];
 };
