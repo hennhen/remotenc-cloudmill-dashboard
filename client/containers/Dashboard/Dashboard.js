@@ -23,8 +23,11 @@ import { green, red, yellow } from '@material-ui/core/colors';
 import { SocketContext } from '../../context';
 import PropTypes from 'prop-types';
 
-const topheight = rem('420px');
-const bottomheight = rem('270px');
+const topheightInt = 420;
+const bottomheightInt = 270;
+
+const topheight = rem(`${topheightInt}px`);
+const bottomheight = rem(`${bottomheightInt}px`);
 
 const GreenButton = withStyles((theme) => ({
   root: {
@@ -59,7 +62,7 @@ const YellowButton = withStyles((theme) => ({
 const Dashboard = ({ history }) => {
   const { socket } = useContext(SocketContext);
   const [data, setData] = useState({ x: 0, y: 0, z: 0, a: 0, c: 0 });
-  const [gCode, setGCode] = useState('');
+  const [gCode, setGCode] = useState([]);
 
   const [videoOne, videoTwo, stream] = useWebRTC();
 
@@ -69,8 +72,8 @@ const Dashboard = ({ history }) => {
       const { coors } = JSON.parse(data);
       setData({ ...coors, a: 0, c: 0 });
     });
-    socket.on('gcode', (gcode) => {
-      setGCode((prevGCode) => (prevGCode += '\n' + gcode));
+    socket.on('gcode', (gCodeLine) => {
+      setGCode((prevGCode) => [...prevGCode, gCodeLine]);
     });
   }, []);
 
@@ -132,7 +135,7 @@ const Dashboard = ({ history }) => {
                 alignItems='stretch'
                 style={{ height: topheight }}
               >
-                <GCodeBox gcode={gCode} />
+                <GCodeBox gcode={gCode} vertOffset={topheightInt} />
               </Grid>
             </Grid>
           </Grid>
