@@ -1,4 +1,5 @@
 import React from 'react';
+import config from 'config';
 import { Card, CardContent, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import PropTypes from 'prop-types';
@@ -12,8 +13,10 @@ const useStyles = makeStyles({
 });
 
 // Placeholder
-const GCodeBox = ({ gcode, vertOffset }) => {
-  const classes = useStyles({ offset: vertOffset - gcode.length * 32 });
+const GCodeBox = ({ gcode }) => {
+  const classes = useStyles({
+    offset: config.dashboardTopHeight - gcode.length * 32
+  });
 
   return (
     <Card
@@ -36,8 +39,7 @@ const GCodeBox = ({ gcode, vertOffset }) => {
 };
 
 GCodeBox.propTypes = {
-  gcode: PropTypes.array,
-  vertOffset: PropTypes.number
+  gcode: PropTypes.array
 };
 
 export default GCodeBox;

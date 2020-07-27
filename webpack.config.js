@@ -1,5 +1,6 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const webpack = require('webpack');
 
 module.exports = {
   devtool: 'cheap-module-eval-source-map',
@@ -11,7 +12,10 @@ module.exports = {
     chunkFilename: '[id].js'
   },
   resolve: {
-    extensions: ['.js', '.jsx']
+    extensions: ['.js', '.jsx'],
+    alias: {
+      config: path.resolve(__dirname, 'config/default.json')
+    }
   },
   module: {
     rules: [
@@ -36,7 +40,8 @@ module.exports = {
       template: __dirname + '/client/index.html',
       filename: 'index.html',
       inject: 'body'
-    })
+    }),
+    new webpack.DefinePlugin({ config: JSON.stringify(require('config')) })
   ],
   devServer: {
     port: 3000,

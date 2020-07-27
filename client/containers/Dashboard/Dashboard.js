@@ -1,4 +1,5 @@
 import React, { useContext, useState, useEffect } from 'react';
+import config from 'config';
 import {
   Container,
   Grid,
@@ -23,11 +24,8 @@ import { green, red, yellow } from '@material-ui/core/colors';
 import { SocketContext } from '../../context';
 import PropTypes from 'prop-types';
 
-const topheightInt = 420;
-const bottomheightInt = 270;
-
-const topheight = rem(`${topheightInt}px`);
-const bottomheight = rem(`${bottomheightInt}px`);
+const topheight = rem(`${config.dashboardTopHeight}px`);
+const bottomheight = rem(`${config.dashboardBottomHeight}px`);
 
 const GreenButton = withStyles((theme) => ({
   root: {
@@ -135,7 +133,7 @@ const Dashboard = ({ history }) => {
                 alignItems='stretch'
                 style={{ height: topheight }}
               >
-                <GCodeBox gcode={gCode} vertOffset={topheightInt} />
+                <GCodeBox gcode={gCode} />
               </Grid>
             </Grid>
           </Grid>

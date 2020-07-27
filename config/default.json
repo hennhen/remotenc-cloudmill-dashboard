@@ -5,5 +5,7 @@
   "localIP": "0.0.0.0",
   "tcpPort": 54545,
   "socketPort": 8000,
-  "dev": true
+  "dev": true,
+  "dashboardTopHeight": 420,
+  "dashboardBottomHeight": 270
 }
