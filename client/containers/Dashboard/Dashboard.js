@@ -59,6 +59,7 @@ const YellowButton = withStyles((theme) => ({
 const Dashboard = ({ history }) => {
   const { socket } = useContext(SocketContext);
   const [data, setData] = useState({ x: 0, y: 0, z: 0, a: 0, c: 0 });
+  const [gCode, setGCode] = useState('');
 
   const [videoOne, videoTwo, stream] = useWebRTC();
 
@@ -67,6 +68,9 @@ const Dashboard = ({ history }) => {
     socket.on('udpData', (data) => {
       const { coors } = JSON.parse(data);
       setData({ ...coors, a: 0, c: 0 });
+    });
+    socket.on('gcode', (gcode) => {
+      setGCode((prevGCode) => (prevGCode += '\n' + gcode));
     });
   }, []);
 
@@ -128,7 +132,7 @@ const Dashboard = ({ history }) => {
                 alignItems='stretch'
                 style={{ height: topheight }}
               >
-                <GCodeBox />
+                <GCodeBox gcode={gCode} />
               </Grid>
             </Grid>
           </Grid>

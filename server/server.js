@@ -50,7 +50,12 @@ app.post('/auth', (req, res) => {
   console.log(req.body);
 
   // DEV MODE
-  if (config.dev) return res.status(200).end();
+  if (config.dev) {
+    setInterval(() => {
+      io.to(req.body.socketID).emit('gcode', ' line of GCode');
+    }, 1000);
+    return res.status(200).end();
+  }
 
   tcp.sendAuthRequest(req.body, (result) => {
     //TODO: Directly get result's status code into the status code
