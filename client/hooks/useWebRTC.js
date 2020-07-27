@@ -24,16 +24,6 @@ const useWebRTC = () => {
       initiator: true,
       config: {
         iceServers: [
-          // {
-          //   urls: 'stun:numb.viagenie.ca',
-          //   username: 'sultan1640@gmail.com',
-          //   credential: '98376683'
-          // },
-          // {
-          //   urls: 'turn:numb.viagenie.ca',
-          //   username: 'sultan1640@gmail.com',
-          //   credential: '98376683'
-          // }
           {
             urls: 'turn:18.163.61.138:3478',
             username: 'admin',

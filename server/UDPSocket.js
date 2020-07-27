@@ -1,5 +1,5 @@
 const dgram = require('dgram');
-const _UDP_PORT = require('config').udpStreamReceivePort;
+const config = require('config');
 const axios = require('axios');
 
 // Passed in an httpServer to be reused with socket.io
@@ -17,7 +17,7 @@ const UDPReceiver = (server, io, ipSocketMap) => {
     console.log(`UDP server listening ${address.address}:${address.port}`);
   });
 
-  udpServer.bind(_UDP_PORT);
+  udpServer.bind(config.udpStreamReceivePort);
 
   // ============= Sockets ==============
 
@@ -27,6 +27,7 @@ const UDPReceiver = (server, io, ipSocketMap) => {
     console.log(Object.keys(io.sockets.sockets));
 
     socket.on('video', (data) => {
+      if (config.dev) return;
       axios.post('http://9a261c053851.ngrok.io', data);
     });
   });
