@@ -1,23 +1,9 @@
 import React from 'react';
-import config from 'config';
 import { Card, CardContent, Typography } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
 import PropTypes from 'prop-types';
-import { rem } from 'polished';
-
-const useStyles = makeStyles({
-  root: {
-    transition: 'margin 1s linear',
-    marginTop: ({ offset }) => rem(`${offset}px`)
-  }
-});
 
 // Placeholder
-const GCodeBox = ({ gcode }) => {
-  const classes = useStyles({
-    offset: config.dashboardTopHeight - gcode.length * 32
-  });
-
+const GCodeBox = ({ gCode, currentIdx }) => {
   return (
     <Card
       style={{
@@ -25,21 +11,31 @@ const GCodeBox = ({ gcode }) => {
         height: '100%'
       }}
     >
-      <CardContent>
-        <div className={classes.root}>
-          {gcode.map((gCodeLine, idx) => (
-            <Typography variant='h5' style={{ color: '#ffffff' }} key={idx}>
-              {gCodeLine}
-            </Typography>
-          ))}
-        </div>
+      <CardContent style={{ position: 'relative', height: '100%' }}>
+        {gCode.map((gCodeLine, idx) => (
+          <Typography
+            variant={'h5'}
+            key={idx}
+            style={{
+              color: currentIdx === idx ? '#ffffff' : '#777777',
+              margin: 0,
+              position: 'absolute',
+              top: `${(idx - currentIdx) * 25 + 50}%`,
+              transform: 'translateY(-50%)',
+              transition: 'top 1s cubic-bezier(.5,0,.5,1)'
+            }}
+          >
+            {gCodeLine}
+          </Typography>
+        ))}
       </CardContent>
     </Card>
   );
 };
 
 GCodeBox.propTypes = {
-  gcode: PropTypes.array
+  gCode: PropTypes.array,
+  currentIdx: PropTypes.number
 };
 
 export default GCodeBox;

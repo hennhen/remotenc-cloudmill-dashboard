@@ -24,8 +24,8 @@ import { green, red, yellow } from '@material-ui/core/colors';
 import { SocketContext } from '../../context';
 import PropTypes from 'prop-types';
 
-const topheight = rem(`${config.dashboardTopHeight}px`);
-const bottomheight = rem(`${config.dashboardBottomHeight}px`);
+const topHeight = rem(`${config.dashboardTopHeight}px`);
+const bottomHeight = rem(`${config.dashboardBottomHeight}px`);
 
 const GreenButton = withStyles((theme) => ({
   root: {
@@ -57,10 +57,13 @@ const YellowButton = withStyles((theme) => ({
   }
 }))(Button);
 
+// TODO: Retrieve GCode through server
+const gCode = config.tempGCode;
+
 const Dashboard = ({ history }) => {
   const { socket } = useContext(SocketContext);
   const [data, setData] = useState({ x: 0, y: 0, z: 0, a: 0, c: 0 });
-  const [gCode, setGCode] = useState([]);
+  const [gCodeIdx, setGCodeIdx] = useState(-1);
 
   const [videoOne, videoTwo, stream] = useWebRTC();
 
@@ -70,8 +73,8 @@ const Dashboard = ({ history }) => {
       const { coors } = JSON.parse(data);
       setData({ ...coors, a: 0, c: 0 });
     });
-    socket.on('gcode', (gCodeLine) => {
-      setGCode((prevGCode) => [...prevGCode, gCodeLine]);
+    socket.on('gcode', (idx) => {
+      setGCodeIdx(idx);
     });
   }, []);
 
@@ -94,7 +97,7 @@ const Dashboard = ({ history }) => {
                 direction='column'
                 justify='space-between'
                 alignItems='flex-start'
-                style={{ height: topheight }}
+                style={{ height: topHeight }}
               >
                 <Grid item>{stream && <Video ref={videoOne} />}</Grid>
                 <Grid item>{stream && <Video ref={videoTwo} />}</Grid>
@@ -106,7 +109,7 @@ const Dashboard = ({ history }) => {
                 direction='column'
                 justify='space-between'
                 alignItems='stretch'
-                style={{ height: topheight }}
+                style={{ height: topHeight }}
               >
                 <Grid item>
                   <DataBox label='X' value={data.x}></DataBox>
@@ -131,13 +134,13 @@ const Dashboard = ({ history }) => {
                 direction='column'
                 justify='space-between'
                 alignItems='stretch'
-                style={{ height: topheight }}
+                style={{ height: topHeight }}
               >
-                <GCodeBox gcode={gCode} />
+                <GCodeBox gCode={gCode} currentIdx={gCodeIdx} />
               </Grid>
             </Grid>
           </Grid>
-          <Grid container spacing={3} style={{ height: bottomheight }}>
+          <Grid container spacing={3} style={{ height: bottomHeight }}>
             <Grid item xs={3}>
               <Grid container direction='column' spacing={2}>
                 <Grid item>

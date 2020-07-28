@@ -28,6 +28,7 @@ const UDPReceiver = (server, io, ipSocketMap) => {
 
     socket.on('video', (data) => {
       if (config.dev) return;
+      // TODO: Determine server IP based on socket ID (fetch socket ID through data.socketID)
       axios.post('http://9a261c053851.ngrok.io', data);
     });
   });

@@ -51,9 +51,15 @@ app.post('/auth', (req, res) => {
 
   // DEV MODE
   if (config.dev) {
-    setInterval(() => {
-      io.to(req.body.socketID).emit('gcode', ' line of GCode');
-    }, 1000);
+    const sendGCodeIdx = (idx) => {
+      io.to(req.body.socketID).emit('gcode', idx);
+      setTimeout(() => {
+        sendGCodeIdx(idx + 1);
+      }, 2000);
+    };
+    setTimeout(() => {
+      sendGCodeIdx(0);
+    }, 2000);
     return res.status(200).end();
   }
 
