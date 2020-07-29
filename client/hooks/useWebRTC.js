@@ -17,7 +17,6 @@ const useWebRTC = () => {
     });
 
     return () => {
-      console.log('peer close');
       socket.off('video');
       peer.destroy();
     };
