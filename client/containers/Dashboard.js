@@ -22,7 +22,6 @@ import { rem } from 'polished';
 import { withStyles } from '@material-ui/core/styles';
 import { green, red, yellow } from '@material-ui/core/colors';
 import { SocketContext } from '../context';
-import PropTypes from 'prop-types';
 
 const topHeight = rem(`${config.dashboardTopHeight}px`);
 const bottomHeight = rem(`${config.dashboardBottomHeight}px`);
@@ -60,7 +59,7 @@ const YellowButton = withStyles((theme) => ({
 // TODO: Retrieve GCode through server
 const gCode = config.tempGCode;
 
-const Dashboard = ({ history }) => {
+const Dashboard = () => {
   const { socket } = useContext(SocketContext);
   const [data, setData] = useState({ x: 0, y: 0, z: 0, a: 0, c: 0 });
   const [gCodeIdx, setGCodeIdx] = useState(-1);
@@ -68,7 +67,6 @@ const Dashboard = ({ history }) => {
   const [videoOne, videoTwo, stream] = useWebRTC();
 
   useEffect(() => {
-    if (!socket) return history.push('/');
     socket.on('udpData', (data) => {
       const { coors } = JSON.parse(data);
       setData({ ...coors, a: 0, c: 0 });
@@ -206,10 +204,6 @@ const Dashboard = ({ history }) => {
       </Grid>
     </Container>
   );
-};
-
-Dashboard.propTypes = {
-  history: PropTypes.object
 };
 
 export default Dashboard;

@@ -1,5 +1,5 @@
 import React, { useState, useContext } from 'react';
-import { withRouter } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import {
   Card,
@@ -39,10 +39,11 @@ const StyledGrid = withStyles(() => ({
   }
 }))(Grid);
 
-const MachineBox = ({ history, number, clientName, jobName }) => {
+const MachineBox = ({ number, clientName, jobName }) => {
   const [open, setOpen] = useState(false);
   const [input, setInput] = useState('');
   const { socket } = useContext(SocketContext);
+  const history = useHistory();
 
   const connect = async () => {
     if (!socket) return;
@@ -110,4 +111,4 @@ MachineBox.propTypes = {
   jobName: PropTypes.string
 };
 
-export default withRouter(MachineBox);
+export default MachineBox;

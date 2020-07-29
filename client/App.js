@@ -4,6 +4,7 @@ import io from 'socket.io-client';
 import axios from 'axios';
 import { Auth, Dashboard } from './containers';
 import { SocketContext } from './context';
+import { PrivateRoute } from './components';
 
 axios.defaults.baseURL = 'http://0.0.0.0:3333';
 
@@ -23,7 +24,7 @@ const App = () => {
 
   const routes = (
     <Switch>
-      <Route path='/dashboard' component={Dashboard} />
+      <PrivateRoute path='/dashboard' component={Dashboard} />
       <Route path='/' component={Auth} />
     </Switch>
   );

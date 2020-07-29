@@ -1,10 +1,11 @@
 import React from 'react';
-import { withRouter } from 'react-router-dom';
-import PropTypes from 'prop-types';
+import { useHistory } from 'react-router-dom';
 import { Typography, Button, Grid } from '@material-ui/core';
 import { rem } from 'polished';
 
-const Header = ({ history }) => {
+const Header = () => {
+  const history = useHistory();
+
   return (
     <Grid container style={{ marginBottom: rem('12px') }}>
       <Grid item xs={4}>
@@ -34,8 +35,4 @@ const Header = ({ history }) => {
   );
 };
 
-Header.propTypes = {
-  history: PropTypes.object
-};
-
-export default withRouter(Header);
+export default Header;

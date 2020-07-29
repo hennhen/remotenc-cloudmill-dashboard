@@ -20,9 +20,9 @@ const GCodeBox = ({ gCode, currentIdx }) => {
               color: currentIdx === idx ? '#ffffff' : '#777777',
               margin: 0,
               position: 'absolute',
-              top: `${(idx - currentIdx) * 25 + 50}%`,
+              top: `${(idx - currentIdx) * 20 + 50}%`,
               transform: 'translateY(-50%)',
-              transition: 'top 1s cubic-bezier(.5,0,.5,1)'
+              transition: 'top 0.5s cubic-bezier(.5,0,.5,1)'
             }}
           >
             {gCodeLine}

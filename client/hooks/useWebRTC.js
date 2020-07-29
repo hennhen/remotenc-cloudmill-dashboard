@@ -1,13 +1,9 @@
 import { useEffect, useRef, useContext } from 'react';
-import { useHistory } from 'react-router-dom';
 import { SocketContext } from '../context';
 import Peer from 'simple-peer';
 
 const useWebRTC = () => {
-  const history = useHistory();
-
   const connected = useRef();
-  const peer = useRef();
 
   const videoOne = useRef();
   const videoTwo = useRef();
@@ -15,16 +11,15 @@ const useWebRTC = () => {
   const { socket } = useContext(SocketContext);
 
   useEffect(() => {
-    if (!socket) return history.push('/');
-    peer.current = buildPeer();
+    const peer = buildPeer();
     socket.on('video', (signal) => {
-      peer.current.signal(signal);
+      peer.signal(signal);
     });
 
     return () => {
       console.log('peer close');
       socket.off('video');
-      return peer.current.destroy();
+      peer.destroy();
     };
   }, []);
 
@@ -43,7 +38,6 @@ const useWebRTC = () => {
     });
 
     peer.on('signal', (data) => {
-      if (connected.current) return;
       socket.emit('video', {
         signal: data,
         socketID: socket.id
