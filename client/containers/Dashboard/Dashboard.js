@@ -76,6 +76,11 @@ const Dashboard = ({ history }) => {
     socket.on('gcode', (idx) => {
       setGCodeIdx(idx);
     });
+
+    return () => {
+      socket.off('udpData');
+      socket.off('gcode');
+    };
   }, []);
 
   return (

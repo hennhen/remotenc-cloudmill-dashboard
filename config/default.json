@@ -5,7 +5,10 @@
   "localIP": "0.0.0.0",
   "tcpPort": 54545,
   "socketPort": 8000,
-  "dev": true,
+  "dev": {
+    "mach3": true,
+    "webrtc": false
+  },
   "dashboardTopHeight": 420,
   "dashboardBottomHeight": 270,
   "tempGCode": [

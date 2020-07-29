@@ -49,17 +49,8 @@ app.use(express.static(path.join(__dirname, 'build')));
 app.post('/auth', (req, res) => {
   console.log(req.body);
 
-  // DEV MODE
-  if (config.dev) {
-    const sendGCodeIdx = (idx) => {
-      io.to(req.body.socketID).emit('gcode', idx);
-      setTimeout(() => {
-        sendGCodeIdx(idx + 1);
-      }, 2000);
-    };
-    setTimeout(() => {
-      sendGCodeIdx(0);
-    }, 2000);
+  // DEV
+  if (config.dev.mach3) {
     return res.status(200).end();
   }
 

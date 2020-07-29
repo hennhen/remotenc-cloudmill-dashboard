@@ -26,10 +26,23 @@ const UDPReceiver = (server, io, ipSocketMap) => {
     console.log('List of clients: ');
     console.log(Object.keys(io.sockets.sockets));
 
+    // DEV
+    if (config.dev.mach3) {
+      const sendGCodeIdx = (idx) => {
+        socket.emit('gcode', idx);
+        setTimeout(() => {
+          sendGCodeIdx(idx + 1);
+        }, 2000);
+      };
+      setTimeout(() => {
+        sendGCodeIdx(0);
+      }, 2000);
+    }
+
     socket.on('video', (data) => {
-      if (config.dev) return;
+      if (config.dev.webrtc) return;
       // TODO: Determine server IP based on socket ID (fetch socket ID through data.socketID)
-      axios.post('http://9a261c053851.ngrok.io', data);
+      axios.post('http://4edb77a7ca42.ngrok.io', data);
     });
   });
 
@@ -44,6 +57,8 @@ const UDPReceiver = (server, io, ipSocketMap) => {
     console.log(`Should goto socket: ${ipSocketMap[rinfo.address]}`);
     io.to(ipSocketMap[rinfo.address]).emit('udpData', msg.toString());
   });
+
+  // TODO: Have mach3 client emit current line of gcode
 };
 
 module.exports = UDPReceiver;
