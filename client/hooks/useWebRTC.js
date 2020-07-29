@@ -10,20 +10,24 @@ const useWebRTC = () => {
 
   const { socket } = useContext(SocketContext);
 
+  const peer = useRef();
+
   useEffect(() => {
-    const peer = buildPeer();
+    peer.current = buildPeer();
+    console.log(peer.current._id);
     socket.on('video', (signal) => {
-      peer.signal(signal);
+      peer.current.signal(signal);
     });
 
     return () => {
       socket.off('video');
-      peer.destroy();
+      console.log(peer.current._id);
+      peer.current.destroy();
     };
   }, []);
 
   const buildPeer = () => {
-    const peer = new Peer({
+    const newPeer = new Peer({
       initiator: true,
       config: {
         iceServers: [
@@ -36,25 +40,31 @@ const useWebRTC = () => {
       }
     });
 
-    peer.on('signal', (data) => {
+    newPeer.on('signal', (data) => {
       socket.emit('video', {
         signal: data,
         socketID: socket.id
       });
     });
 
-    peer.on('stream', (stream) => {
+    newPeer.on('stream', (stream) => {
       connected.current = true;
       if (!videoOne.current.srcObject) videoOne.current.srcObject = stream;
       else videoTwo.current.srcObject = stream;
     });
 
-    peer.on('error', (err) => {
+    newPeer.on('error', (err) => {
       console.error(err.code);
-      connected.current = false;
+      socket.off('video');
+      console.log('building new peer');
+      peer.current = buildPeer();
+      console.log(peer.current._id);
+      socket.on('video', (signal) => {
+        peer.current.signal(signal);
+      });
     });
 
-    return peer;
+    return newPeer;
   };
 
   return [videoOne, videoTwo, connected];
