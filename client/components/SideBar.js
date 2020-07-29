@@ -1,6 +1,6 @@
 import React from 'react';
 import { Grid, Typography } from '@material-ui/core';
-import { CircularProgressWithLabel, Circle } from '..';
+import { CircularProgressWithLabel, Circle } from '.';
 import { green } from '@material-ui/core/colors';
 
 const SideBar = () => {

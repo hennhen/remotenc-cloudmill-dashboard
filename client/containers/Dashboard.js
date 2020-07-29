@@ -16,12 +16,12 @@ import {
   GCodeBox,
   SettingBox,
   SliderBox
-} from '../../components';
-import { useWebRTC } from '../../hooks';
+} from '../components';
+import { useWebRTC } from '../hooks';
 import { rem } from 'polished';
 import { withStyles } from '@material-ui/core/styles';
 import { green, red, yellow } from '@material-ui/core/colors';
-import { SocketContext } from '../../context';
+import { SocketContext } from '../context';
 import PropTypes from 'prop-types';
 
 const topHeight = rem(`${config.dashboardTopHeight}px`);

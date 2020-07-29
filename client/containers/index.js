@@ -1,2 +1,2 @@
-export { default as Auth } from './Auth/Auth';
-export { default as Dashboard } from './Dashboard/Dashboard';
+export { default as Auth } from './Auth';
+export { default as Dashboard } from './Dashboard';

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Typography, Container } from '@material-ui/core';
-import { MachineBox } from '../../components';
+import { MachineBox } from '../components';
 
 const TEMP_DATA = [
   { number: 1, clientName: 'Henry Wu', jobName: 'Aluminum Clevis Mount' },

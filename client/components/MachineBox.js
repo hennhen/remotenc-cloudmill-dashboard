@@ -15,7 +15,7 @@ import { rem } from 'polished';
 import { withStyles } from '@material-ui/core/styles';
 import { green } from '@material-ui/core/colors';
 import axios from 'axios';
-import { SocketContext } from '../../context';
+import { SocketContext } from '../context';
 
 const GreenButton = withStyles((theme) => ({
   root: {

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Slider, Typography, Grid } from '@material-ui/core';
 import PropTypes from 'prop-types';
-import { SettingBox } from '../';
+import { SettingBox } from '.';
 import { rem } from 'polished';
 
 const height = rem('150px');
