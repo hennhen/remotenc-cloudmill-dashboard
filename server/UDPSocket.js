@@ -44,10 +44,16 @@ const UDPReceiver = (server, io, ipSocketMap) => {
       // TODO: Determine server IP based on socket ID (fetch socket ID through data.socketID)
       axios.post('http://4edb77a7ca42.ngrok.io', data);
     });
-  });
 
-  io.on('disconnect', () => {
-    console.log('A socket is disconnected');
+    socket.on('disconnect', () => {
+      console.log('A socket has disconnected');
+      for (const [ip, socketID] in Object.entries(ipSocketMap)) {
+        if (socketID === socket.id) {
+          delete ipSocketMap[ip];
+        }
+      }
+      console.log(ipSocketMap);
+    });
   });
 
   // Emit to specific socket with our dict map
