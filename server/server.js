@@ -1,8 +1,11 @@
 const config = require('config');
 //============== Express Stuff =================
-const path = require('path');
 const express = require('express');
 const app = express();
+const connectDB = require('./db');
+
+// Connect Database
+connectDB();
 
 const httpServer = app.listen(
   config.expressServerPort,
@@ -31,11 +34,9 @@ io.listen(httpServer);
 // Pass in the httpServer object to be reused for socket.io
 udpSocket(httpServer, io, ipSocketMap);
 
-//=====================
-
+// Init Middleware
 app.use(express.json());
 app.use(require('cors')());
-app.use(express.static(path.join(__dirname, 'build')));
 
 //================== EXPRESS ROUTES ===================
 // app.get('/discover', (req, res) => {
@@ -45,6 +46,10 @@ app.use(express.static(path.join(__dirname, 'build')));
 //     io.to(socketID).emit('machine_data', machineData);
 //   });
 // });
+
+// Define Routes
+app.use('/api/users', require('./routes/users'));
+app.use('/api/auth', require('./routes/auth'));
 
 app.post('/auth', (req, res) => {
   console.log(req.body);

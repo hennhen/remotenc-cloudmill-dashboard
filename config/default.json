@@ -11,6 +11,8 @@
   },
   "dashboardTopHeight": 420,
   "dashboardBottomHeight": 270,
+  "mongoURI": "mongodb+srv://admin:12345@cluster0.dye1h.mongodb.net/<dbname>?retryWrites=true&w=majority",
+  "jwtSecret": "mySecret",
   "tempGCode": [
     "Lorem ipsum dolor sit amet",
     "consectetur adipiscing elit",
