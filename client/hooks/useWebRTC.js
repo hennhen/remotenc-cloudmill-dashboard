@@ -12,6 +12,8 @@ const useWebRTC = () => {
 
   const peer = useRef();
 
+  const disconnect = useRef();
+
   useEffect(() => {
     peer.current = buildPeer();
     socket.on('video', (signal) => {
@@ -19,6 +21,7 @@ const useWebRTC = () => {
     });
 
     return () => {
+      disconnect.current = true;
       socket.off('video');
       peer.current.destroy();
     };
@@ -51,7 +54,13 @@ const useWebRTC = () => {
       else videoTwo.current.srcObject = stream;
     });
 
+    newPeer.on('error', (err) => {
+      console.error(err);
+    });
+
     newPeer.on('close', () => {
+      console.log('peer closed');
+      if (disconnect.current) return;
       socket.off('video');
       peer.current = buildPeer();
       socket.on('video', (signal) => {

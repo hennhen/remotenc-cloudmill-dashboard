@@ -7,7 +7,7 @@
   "socketPort": 8000,
   "dev": {
     "mach3": true,
-    "webrtc": true
+    "webrtc": false
   },
   "dashboardTopHeight": 420,
   "dashboardBottomHeight": 270,
