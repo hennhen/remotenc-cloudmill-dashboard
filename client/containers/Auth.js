@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
-import { useHistory } from 'react-router-dom';
-import axios from 'axios';
+import { useAuth } from '../hooks';
 import {
   Typography,
   TextField,
@@ -13,17 +12,7 @@ import {
 const Auth = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const history = useHistory();
-
-  const connect = async () => {
-    const response = await axios.post('/api/auth', {
-      email: email,
-      password: password
-    });
-    console.log(response);
-    if (response.status !== 200) return;
-    history.push('/dashboard');
-  };
+  const { login } = useAuth();
 
   return (
     <Grid
@@ -54,7 +43,13 @@ const Auth = () => {
               onChange={(event) => setPassword(event.target.value)}
             />
             <div style={{ marginTop: 12 }}>
-              <Button variant='contained' color='primary' onClick={connect}>
+              <Button
+                variant='contained'
+                color='primary'
+                onClick={() => {
+                  login(email, password);
+                }}
+              >
                 Submit
               </Button>
             </div>

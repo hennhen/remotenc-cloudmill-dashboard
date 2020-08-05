@@ -5,13 +5,16 @@ import axios from 'axios';
 import { Auth, Dashboard } from './containers';
 import { SocketContext } from './context';
 import { PrivateRoute } from './components';
+import { useAuth } from './hooks';
 
 axios.defaults.baseURL = 'http://0.0.0.0:3333';
 
 const App = () => {
   const { setSocket } = useContext(SocketContext);
+  const { setAuth } = useAuth();
 
   useEffect(() => {
+    setAuth(localStorage.token);
     const socketConnect = async () => {
       const socket = await io('0.0.0.0:3333');
       socket.on('connect', () => {
