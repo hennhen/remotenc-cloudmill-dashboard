@@ -60,6 +60,10 @@ const useWebRTC = () => {
       });
     });
 
+    newPeer.on('close', () => {
+      console.log('Peer closed');
+    });
+
     return newPeer;
   };
 
