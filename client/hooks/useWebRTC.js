@@ -51,17 +51,12 @@ const useWebRTC = () => {
       else videoTwo.current.srcObject = stream;
     });
 
-    newPeer.on('error', (err) => {
-      console.error(err.code);
+    newPeer.on('close', () => {
       socket.off('video');
       peer.current = buildPeer();
       socket.on('video', (signal) => {
         peer.current.signal(signal);
       });
-    });
-
-    newPeer.on('close', () => {
-      console.log('Peer closed');
     });
 
     return newPeer;
