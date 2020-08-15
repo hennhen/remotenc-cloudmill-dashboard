@@ -7,7 +7,7 @@ import { SocketContext } from './context';
 import { PrivateRoute } from './components';
 import { useAuth } from './hooks';
 
-axios.defaults.baseURL = 'http://localhost:3333';
+axios.defaults.baseURL = '/api';
 
 const App = () => {
   const { setSocket } = useContext(SocketContext);
@@ -16,7 +16,7 @@ const App = () => {
   useEffect(() => {
     setAuth(localStorage.token);
     const socketConnect = async () => {
-      const socket = await io('0.0.0.0:3333');
+      const socket = await io();
       socket.on('connect', () => {
         setSocket(socket);
       });

@@ -12,7 +12,7 @@ const useAuth = () => {
       axios.defaults.headers.common['x-auth-token'] = token;
       localStorage.setItem('token', token);
       try {
-        const user = await axios.get('/api/auth');
+        const user = await axios.get('/auth');
         setEmail(user.data.email);
       } catch (err) {
         console.error(err);
@@ -25,7 +25,7 @@ const useAuth = () => {
   };
 
   const login = async (email, password) => {
-    const response = await axios.post('/api/auth', {
+    const response = await axios.post('/auth', {
       email: email,
       password: password
     });

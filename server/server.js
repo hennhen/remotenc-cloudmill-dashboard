@@ -8,13 +8,11 @@ const connectDB = require('./db');
 // Connect Database
 connectDB();
 
-const httpServer = app.listen(
-  config.expressServerPort,
-  config.localIP || 'localhost',
-  () => {
-    console.log('Express started on PORT: ', config.expressServerPort);
-  }
-);
+const PORT = process.env.POPRT || config.expressServerPort;
+
+const httpServer = app.listen(PORT, () => {
+  console.log('Express started on PORT: ', PORT);
+});
 
 //===============Redis==================
 // const redis = require("redis");
