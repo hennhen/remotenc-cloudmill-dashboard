@@ -42,7 +42,7 @@ const UDPReceiver = (server, io, ipSocketMap) => {
     socket.on('video', (data) => {
       if (config.dev.webrtc) return;
       // TODO: Determine server IP based on socket ID (fetch socket ID through data.socketID)
-      axios.post('http://d4f5639563bf.ngrok.io', data);
+      axios.post('http://e792ac41be58.ngrok.io', data);
     });
 
     socket.on('disconnect', () => {
