@@ -1,4 +1,5 @@
 const config = require('config');
+const path = require('path');
 //============== Express Stuff =================
 const express = require('express');
 const app = express();
@@ -99,3 +100,13 @@ app.post('/video', (req, res) => {
   io.to(socketID).emit('video', signal);
   res.status(200).end();
 });
+
+// Serve static assets in production
+if (process.env.NODE_ENV === 'production') {
+  // Set static folder
+  app.use(express.static('dist'));
+
+  app.get('*', (req, res) => {
+    res.sendFile(path.resolve(__dirname, 'dist', 'index.html'));
+  });
+}

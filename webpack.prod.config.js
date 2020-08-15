@@ -1,7 +1,15 @@
+const config = require('config');
+const fs = require('fs');
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
+fs.writeFileSync(
+  path.resolve(__dirname, 'dist/client.json'),
+  JSON.stringify(config)
+);
+
 module.exports = {
+  mode: 'production',
   devtool: 'cheap-module-eval-source-map',
   entry: './client/index.js',
   output: {
@@ -10,9 +18,11 @@ module.exports = {
     filename: 'bundle.js',
     chunkFilename: '[id].js'
   },
-  mode: 'development',
   resolve: {
-    extensions: ['.js', '.jsx']
+    extensions: ['.js', '.jsx'],
+    alias: {
+      config: path.resolve(__dirname, 'dist/client.json')
+    }
   },
   module: {
     rules: [

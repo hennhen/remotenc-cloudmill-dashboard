@@ -7,7 +7,7 @@ import { SocketContext } from './context';
 import { PrivateRoute } from './components';
 import { useAuth } from './hooks';
 
-axios.defaults.baseURL = 'http://0.0.0.0:3333';
+axios.defaults.baseURL = 'http://localhost:3333';
 
 const App = () => {
   const { setSocket } = useContext(SocketContext);

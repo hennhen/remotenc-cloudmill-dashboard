@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect } from 'react';
-import config from 'config';
+import { client } from 'config';
 import {
   Container,
   Grid,
@@ -23,8 +23,8 @@ import { withStyles } from '@material-ui/core/styles';
 import { green, red, yellow } from '@material-ui/core/colors';
 import { SocketContext } from '../context';
 
-const topHeight = rem(`${config.dashboardTopHeight}px`);
-const bottomHeight = rem(`${config.dashboardBottomHeight}px`);
+const topHeight = rem(`${client.topHeight}px`);
+const bottomHeight = rem(`${client.bottomHeight}px`);
 
 const GreenButton = withStyles((theme) => ({
   root: {
@@ -57,7 +57,7 @@ const YellowButton = withStyles((theme) => ({
 }))(Button);
 
 // TODO: Retrieve GCode through server
-const gCode = config.tempGCode;
+const gCode = client.tempGCode;
 
 const Dashboard = () => {
   const { socket } = useContext(SocketContext);

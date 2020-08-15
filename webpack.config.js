@@ -1,6 +1,5 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const webpack = require('webpack');
 
 module.exports = {
   devtool: 'cheap-module-eval-source-map',
@@ -40,8 +39,7 @@ module.exports = {
       template: __dirname + '/client/index.html',
       filename: 'index.html',
       inject: 'body'
-    }),
-    new webpack.DefinePlugin({ config: JSON.stringify(require('config')) })
+    })
   ],
   devServer: {
     port: 3000,

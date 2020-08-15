@@ -8,7 +8,8 @@
     "server": "nodemon server/server",
     "client": "webpack-dev-server",
     "dev": "concurrently \"npm run server\" \"npm run client\"",
-    "build": "rimraf dist && webpack --config webpack.prod.config.js --progress --profile --color"
+    "build": "rimraf dist && mkdir dist && webpack --config webpack.prod.config.js --progress --profile --color",
+    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install && npm run build"
   },
   "repository": {
     "type": "git",
