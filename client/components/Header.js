@@ -1,9 +1,12 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
+import { useAuth } from '../hooks';
 import { Typography, Button, Grid } from '@material-ui/core';
+
 import { rem } from 'polished';
 
 const Header = () => {
+  const { setAuth } = useAuth();
   const history = useHistory();
 
   return (
@@ -23,7 +26,8 @@ const Header = () => {
           <Button
             color='primary'
             variant='contained'
-            onClick={() => {
+            onClick={async () => {
+              await setAuth();
               history.push('/');
             }}
           >
