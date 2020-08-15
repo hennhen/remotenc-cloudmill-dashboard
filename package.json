@@ -7,9 +7,9 @@
     "start": "node server/server",
     "server": "nodemon server/server",
     "client": "webpack-dev-server",
-    "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "dev": "concurrently \"yarn run server\" \"yarn run client\"",
     "build": "rimraf dist && mkdir dist && webpack --config webpack.prod.config.js --progress --profile --color",
-    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install && npm run build"
+    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false yarn install && yarn run build"
   },
   "repository": {
     "type": "git",
