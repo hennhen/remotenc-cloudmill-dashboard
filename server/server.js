@@ -8,7 +8,7 @@ const connectDB = require('./db');
 // Connect Database
 connectDB();
 
-const PORT = process.env.POPRT || config.expressServerPort;
+const PORT = process.env.PORT || config.expressServerPort;
 
 const httpServer = app.listen(PORT, () => {
   console.log('Express started on PORT: ', PORT);
