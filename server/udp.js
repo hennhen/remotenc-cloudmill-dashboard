@@ -1,9 +1,11 @@
 const dgram = require('dgram');
 const config = require('config');
 const axios = require('axios');
+const io = require('./io').io();
+const ipSocketMap = require('./ipSocketMap');
 
 // Passed in an httpServer to be reused with socket.io
-const UDPReceiver = (server, io, ipSocketMap) => {
+const UDPReceiver = (server) => {
   // ============= UDP setups ============
   const udpServer = dgram.createSocket('udp4');
 
@@ -22,9 +24,11 @@ const UDPReceiver = (server, io, ipSocketMap) => {
   // ============= Sockets ==============
 
   io.on('connection', (socket) => {
-    console.log('Socket client connected');
+    console.log('A socket has connected');
     console.log('List of clients: ');
     console.log(Object.keys(io.sockets.sockets));
+
+    ipSocketMap[socket.id] = socket.id;
 
     // DEV
     if (config.dev.mach3) {
@@ -46,13 +50,15 @@ const UDPReceiver = (server, io, ipSocketMap) => {
     });
 
     socket.on('disconnect', () => {
+      const socketIDs = Object.keys(io.sockets.sockets);
+
       console.log('A socket has disconnected');
-      for (const [ip, socketID] in Object.entries(ipSocketMap)) {
-        if (socketID === socket.id) {
+      for (const [ip, socketID] of Object.entries(ipSocketMap)) {
+        if (!socketIDs.includes(socketID)) {
           delete ipSocketMap[ip];
         }
       }
-      console.log(ipSocketMap);
+      console.log(socketIDs);
     });
   });
 

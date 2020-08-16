@@ -5,7 +5,9 @@
 const net = require('net');
 const config = require('config');
 
-module.exports = class TCPClient {
+let tcp = null;
+
+class TCP {
   constructor() {
     this.server = net.createServer();
     this.server.on('connection', this._handleConnection);
@@ -104,4 +106,12 @@ module.exports = class TCPClient {
       client.destroy();
     }
   }
+}
+
+module.exports.tcp = () => {
+  return tcp;
+};
+
+module.exports.initialize = () => {
+  tcp = new TCP();
 };
