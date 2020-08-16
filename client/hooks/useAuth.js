@@ -14,14 +14,15 @@ const useAuth = () => {
       try {
         const user = await axios.get('/auth');
         setEmail(user.data.email);
+        return true;
       } catch (err) {
         console.error(err);
       }
-    } else {
-      delete axios.defaults.headers.common['x-auth-token'];
-      localStorage.removeItem('token');
-      setEmail(null);
     }
+    delete axios.defaults.headers.common['x-auth-token'];
+    localStorage.removeItem('token');
+    setEmail(null);
+    return false;
   };
 
   const login = async (email, password) => {
@@ -29,7 +30,7 @@ const useAuth = () => {
       email: email,
       password: password
     });
-    if (response.status !== 200) return;
+    if (response.status !== 200) return false;
     await setAuth(response.data.token);
     history.push('/dashboard');
   };
