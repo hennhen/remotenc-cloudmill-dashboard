@@ -4,7 +4,7 @@ import { useHistory } from 'react-router-dom';
 import axios from 'axios';
 
 const useAuth = () => {
-  const { setEmail } = useContext(UserContext);
+  const { setUser } = useContext(UserContext);
   const { setAlert } = useContext(AlertContext);
   const history = useHistory();
 
@@ -14,8 +14,14 @@ const useAuth = () => {
       localStorage.setItem('token', token);
       try {
         const user = await axios.get('/auth');
-        setEmail(user.data.email);
-        return true;
+        if (user.data.job && user.data.gCode) {
+          setUser(user.data);
+          return true;
+        }
+        setAlert({
+          type: 'error',
+          message: 'Your account has no job set yet.'
+        });
       } catch (err) {
         setAlert({
           type: 'info',
@@ -25,7 +31,7 @@ const useAuth = () => {
     }
     delete axios.defaults.headers.common['x-auth-token'];
     localStorage.removeItem('token');
-    setEmail(null);
+    setUser(null);
     return false;
   };
 

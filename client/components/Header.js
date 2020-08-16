@@ -2,10 +2,11 @@ import React from 'react';
 import { useHistory } from 'react-router-dom';
 import { useAuth } from '../hooks';
 import { Typography, Button, Grid } from '@material-ui/core';
+import PropTypes from 'prop-types';
 
 import { rem } from 'polished';
 
-const Header = () => {
+const Header = ({ job, company }) => {
   const { setAuth } = useAuth();
   const history = useHistory();
 
@@ -17,7 +18,7 @@ const Header = () => {
       <Grid item xs={4}>
         <Grid container justify='center'>
           <Typography variant='h5' style={{ fontWeight: 500 }}>
-            Job Name / Company Name
+            {job} / {company}
           </Typography>
         </Grid>
       </Grid>
@@ -37,6 +38,11 @@ const Header = () => {
       </Grid>
     </Grid>
   );
+};
+
+Header.propTypes = {
+  job: PropTypes.string,
+  company: PropTypes.string
 };
 
 export default Header;

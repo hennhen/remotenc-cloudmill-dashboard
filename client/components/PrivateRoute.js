@@ -4,13 +4,13 @@ import { UserContext } from '../context';
 import PropTypes from 'prop-types';
 
 const PrivateRoute = ({ component: Component, ...rest }) => {
-  const { email } = useContext(UserContext);
+  const { user } = useContext(UserContext);
 
   return (
     <Route
       {...rest}
       render={(props) =>
-        email ? <Component {...props} /> : <Redirect to={{ pathname: '/' }} />
+        user ? <Component {...props} /> : <Redirect to={{ pathname: '/' }} />
       }
     />
   );

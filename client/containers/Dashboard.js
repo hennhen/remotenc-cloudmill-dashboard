@@ -21,7 +21,7 @@ import { useWebRTC } from '../hooks';
 import { rem } from 'polished';
 import { withStyles } from '@material-ui/core/styles';
 import { green, red, yellow } from '@material-ui/core/colors';
-import { SocketContext } from '../context';
+import { SocketContext, UserContext } from '../context';
 
 const topHeight = rem(`${client.topHeight}px`);
 const bottomHeight = rem(`${client.bottomHeight}px`);
@@ -56,11 +56,9 @@ const YellowButton = withStyles((theme) => ({
   }
 }))(Button);
 
-// TODO: Retrieve GCode through server
-const gCode = client.tempGCode;
-
 const Dashboard = () => {
   const { socket } = useContext(SocketContext);
+  const { user } = useContext(UserContext);
   const [data, setData] = useState({ x: 0, y: 0, z: 0, a: 0, c: 0 });
   const [gCodeIdx, setGCodeIdx] = useState(-1);
 
@@ -85,7 +83,7 @@ const Dashboard = () => {
     <Container>
       <Grid container spacing={3}>
         <Grid item xs={12}>
-          <Header />
+          <Header job={user.job} company={user.company} />
           <Divider />
         </Grid>
         <Grid item xs={2}>
@@ -139,7 +137,7 @@ const Dashboard = () => {
                 alignItems='stretch'
                 style={{ height: topHeight }}
               >
-                <GCodeBox gCode={gCode} currentIdx={gCodeIdx} />
+                <GCodeBox gCode={user.gCode} currentIdx={gCodeIdx} />
               </Grid>
             </Grid>
           </Grid>

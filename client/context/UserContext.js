@@ -2,14 +2,15 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
 export const UserContext = React.createContext({
-  email: null
+  user: {},
+  setUser: () => {}
 });
 
 const UserContextProvider = ({ children }) => {
-  const [email, setEmail] = useState(null);
+  const [user, setUser] = useState(null);
 
   return (
-    <UserContext.Provider value={{ email: email, setEmail: setEmail }}>
+    <UserContext.Provider value={{ user: user, setUser: setUser }}>
       {children}
     </UserContext.Provider>
   );
