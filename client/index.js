@@ -2,12 +2,18 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App.js';
 import './index.css';
-import { SocketContextProvider, UserContextProvider } from './context';
+import {
+  SocketContextProvider,
+  UserContextProvider,
+  AlertContextProvider
+} from './context';
 
 ReactDOM.render(
   <UserContextProvider>
     <SocketContextProvider>
-      <App />
+      <AlertContextProvider>
+        <App />
+      </AlertContextProvider>
     </SocketContextProvider>
   </UserContextProvider>,
   document.getElementById('root')

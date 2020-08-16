@@ -3,7 +3,7 @@ import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
 import io from 'socket.io-client';
 import axios from 'axios';
 import { Auth, Dashboard } from './containers';
-import { SocketContext, UserContext } from './context';
+import { SocketContext, UserContext, AlertContext } from './context';
 import { PrivateRoute } from './components';
 import { useAuth } from './hooks';
 
@@ -12,6 +12,7 @@ axios.defaults.baseURL = 'http://localhost:3333/api';
 const App = () => {
   const { email } = useContext(UserContext);
   const { setSocket } = useContext(SocketContext);
+  const { setAlert } = useContext(AlertContext);
   const { setAuth } = useAuth();
   const [redirect, setRedirect] = useState(null);
 
@@ -29,7 +30,10 @@ const App = () => {
           auth();
         });
       } catch (err) {
-        console.error(err);
+        setAlert({
+          type: 'error',
+          message: 'Unable to connect to server, please come back later.'
+        });
       }
     };
 

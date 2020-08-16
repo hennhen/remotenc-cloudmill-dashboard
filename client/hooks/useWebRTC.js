@@ -59,7 +59,6 @@ const useWebRTC = () => {
     });
 
     newPeer.on('close', () => {
-      console.log('peer closed');
       if (disconnect.current) return;
       socket.off('video');
       peer.current = buildPeer();

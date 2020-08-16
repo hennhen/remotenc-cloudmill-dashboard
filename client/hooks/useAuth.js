@@ -1,10 +1,11 @@
 import { useContext } from 'react';
-import { UserContext } from '../context';
+import { UserContext, AlertContext } from '../context';
 import { useHistory } from 'react-router-dom';
 import axios from 'axios';
 
 const useAuth = () => {
   const { setEmail } = useContext(UserContext);
+  const { setAlert } = useContext(AlertContext);
   const history = useHistory();
 
   const setAuth = async (token) => {
@@ -16,7 +17,10 @@ const useAuth = () => {
         setEmail(user.data.email);
         return true;
       } catch (err) {
-        console.error(err);
+        setAlert({
+          type: 'info',
+          message: 'Your session has expired, please log in again.'
+        });
       }
     }
     delete axios.defaults.headers.common['x-auth-token'];
@@ -26,13 +30,19 @@ const useAuth = () => {
   };
 
   const login = async (email, password) => {
-    const response = await axios.post('/auth', {
-      email: email,
-      password: password
-    });
-    if (response.status !== 200) return false;
-    await setAuth(response.data.token);
-    history.push('/dashboard');
+    try {
+      const response = await axios.post('/auth', {
+        email: email,
+        password: password
+      });
+      await setAuth(response.data.token);
+      history.push('/dashboard');
+    } catch (err) {
+      setAlert({
+        type: 'error',
+        message: 'Wrong credentials, please try again.'
+      });
+    }
   };
 
   return { setAuth, login };
