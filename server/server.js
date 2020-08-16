@@ -44,6 +44,7 @@ app.use('/api/auth', require('./routes/auth'));
 app.use('/api/video', require('./routes/video'));
 app.use('/api/command', require('./routes/command'));
 app.use('/api/disconnect', require('./routes/disconnect'));
+app.use('/api/job', require('./routes/job'));
 
 // Serve static assets in production
 if (process.env.NODE_ENV === 'production') {
