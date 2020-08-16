@@ -35,7 +35,7 @@ const Auth = () => {
       alignItems='center'
       style={{ height: '90vh' }}
     >
-      <Grid item xs={2}>
+      <Grid item style={{ width: 300 }}>
         {alert && (
           <Snackbar
             open={true}

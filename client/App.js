@@ -10,7 +10,7 @@ import { useAuth } from './hooks';
 axios.defaults.baseURL = 'http://localhost:3333/api';
 
 const App = () => {
-  const { email } = useContext(UserContext);
+  const { user } = useContext(UserContext);
   const { setSocket } = useContext(SocketContext);
   const { setAlert } = useContext(AlertContext);
   const { setAuth } = useAuth();
@@ -41,8 +41,8 @@ const App = () => {
   }, []);
 
   useEffect(() => {
-    if (!email) setRedirect(null);
-  }, [email]);
+    if (!user) setRedirect(null);
+  }, [user]);
 
   const routes = (
     <Switch>
