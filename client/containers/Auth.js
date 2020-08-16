@@ -14,6 +14,16 @@ const Auth = () => {
   const [password, setPassword] = useState('');
   const { login } = useAuth();
 
+  const submit = () => {
+    login(email, password);
+  };
+
+  const handleKeyDown = (e) => {
+    if (e.keyCode === 13) {
+      submit();
+    }
+  };
+
   return (
     <Grid
       container
@@ -39,17 +49,12 @@ const Auth = () => {
               label='Password'
               type='password'
               autoComplete='current-password'
+              onKeyDown={handleKeyDown}
               value={password}
               onChange={(event) => setPassword(event.target.value)}
             />
             <div style={{ marginTop: 12 }}>
-              <Button
-                variant='contained'
-                color='primary'
-                onClick={() => {
-                  login(email, password);
-                }}
-              >
+              <Button variant='contained' color='primary' onClick={submit}>
                 Submit
               </Button>
             </div>
