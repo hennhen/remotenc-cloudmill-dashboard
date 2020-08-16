@@ -5,6 +5,9 @@ const { check, validationResult } = require('express-validator');
 
 const User = require('../models/User');
 
+// @route    POST api/job
+// @desc     Add job and gCode to an account
+// @access   Private
 router.post(
   '/',
   [
