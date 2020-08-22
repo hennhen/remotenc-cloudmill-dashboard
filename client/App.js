@@ -6,13 +6,15 @@ import { Auth, Dashboard, Jobs } from './containers';
 import { SocketContext, UserContext, AlertContext } from './context';
 import { PrivateRoute } from './components';
 import { useAuth } from './hooks';
+import { Snackbar } from '@material-ui/core';
+import { Alert } from '@material-ui/lab';
 
 axios.defaults.baseURL = 'http://localhost:3333/api';
 
 const App = () => {
   const { user } = useContext(UserContext);
   const { setSocket } = useContext(SocketContext);
-  const { setAlert } = useContext(AlertContext);
+  const { alert, setAlert } = useContext(AlertContext);
   const { setAuth } = useAuth();
   const [redirect, setRedirect] = useState(null);
 
@@ -45,11 +47,36 @@ const App = () => {
   }, [user]);
 
   const routes = (
-    <Switch>
-      <PrivateRoute path='/dashboard' component={Dashboard} />
-      <PrivateRoute path='/jobs' component={Jobs} />
-      <Route path='/'>{redirect || <Auth />}</Route>
-    </Switch>
+    <>
+      {alert && (
+        <Snackbar
+          open={true}
+          autoHideDuration={5000}
+          anchorOrigin={{
+            vertical: 'top',
+            horizontal: 'center'
+          }}
+          onClose={() => {
+            setAlert(null);
+          }}
+        >
+          <Alert
+            severity={alert.type}
+            variant='filled'
+            onClose={() => {
+              setAlert(null);
+            }}
+          >
+            {alert.message}
+          </Alert>
+        </Snackbar>
+      )}
+      <Switch>
+        <PrivateRoute path='/dashboard' component={Dashboard} />
+        <PrivateRoute path='/jobs' component={Jobs} />
+        <Route path='/'>{redirect || <Auth />}</Route>
+      </Switch>
+    </>
   );
 
   return <BrowserRouter>{routes}</BrowserRouter>;
