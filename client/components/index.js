@@ -9,3 +9,4 @@ export { default as SettingBox } from './SettingBox';
 export { default as SliderBox } from './SliderBox';
 export { default as Circle } from './Circle';
 export { default as PrivateRoute } from './PrivateRoute';
+export { default as Form } from './Form';
