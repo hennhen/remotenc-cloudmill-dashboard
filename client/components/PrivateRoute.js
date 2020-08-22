@@ -1,6 +1,7 @@
 import React, { useContext } from 'react';
 import { Redirect, Route } from 'react-router-dom';
 import { UserContext } from '../context';
+import { Header } from './';
 import PropTypes from 'prop-types';
 
 const PrivateRoute = ({ component: Component, ...rest }) => {
@@ -10,7 +11,14 @@ const PrivateRoute = ({ component: Component, ...rest }) => {
     <Route
       {...rest}
       render={(props) =>
-        user ? <Component {...props} /> : <Redirect to={{ pathname: '/' }} />
+        user ? (
+          <>
+            <Header company={user.company} />
+            <Component {...props} />
+          </>
+        ) : (
+          <Redirect to={{ pathname: '/' }} />
+        )
       }
     />
   );

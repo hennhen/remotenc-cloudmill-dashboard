@@ -9,7 +9,6 @@ import {
   Switch
 } from '@material-ui/core';
 import {
-  Header,
   SideBar,
   Video,
   DataBox,
@@ -82,10 +81,6 @@ const Dashboard = () => {
   return (
     <Container>
       <Grid container spacing={3}>
-        <Grid item xs={12}>
-          <Header job={user.job} company={user.company} />
-          <Divider />
-        </Grid>
         <Grid item xs={2}>
           <SideBar />
         </Grid>
