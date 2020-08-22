@@ -9,7 +9,7 @@ import {
 } from '@material-ui/core';
 import PropTypes from 'prop-types';
 
-const Form = ({ submit, title, fields, children }) => {
+const Form = ({ submit, title, fields, modal, children }) => {
   const [inputs, setInputs] = useState({});
 
   const handleChange = (event, field) => {
@@ -42,7 +42,42 @@ const Form = ({ submit, title, fields, children }) => {
     </React.Fragment>
   ));
 
-  return (
+  const cardNode = (
+    <Card>
+      <CardContent>
+        <Typography variant='h5' gutterBottom>
+          {title}
+        </Typography>
+        {fieldsNode}
+        <div>
+          <Button
+            variant='contained'
+            color='primary'
+            onClick={() => {
+              submit(inputs);
+            }}
+          >
+            Submit
+          </Button>
+        </div>
+        {children}
+      </CardContent>
+    </Card>
+  );
+
+  const contentNode = modal ? (
+    <div
+      style={{
+        position: 'absolute',
+        top: '50%',
+        left: '50%',
+        transform: 'translate(-50%, -50%)',
+        width: 300
+      }}
+    >
+      {cardNode}
+    </div>
+  ) : (
     <Grid
       container
       justify='center'
@@ -50,35 +85,19 @@ const Form = ({ submit, title, fields, children }) => {
       style={{ height: '90vh' }}
     >
       <Grid item style={{ width: 300 }}>
-        <Card>
-          <CardContent>
-            <Typography variant='h5' gutterBottom>
-              {title}
-            </Typography>
-            {fieldsNode}
-            <div>
-              <Button
-                variant='contained'
-                color='primary'
-                onClick={() => {
-                  submit(inputs);
-                }}
-              >
-                Submit
-              </Button>
-            </div>
-            {children}
-          </CardContent>
-        </Card>
+        {cardNode}
       </Grid>
     </Grid>
   );
+
+  return contentNode;
 };
 
 Form.propTypes = {
   submit: PropTypes.func,
   title: PropTypes.string,
   fields: PropTypes.array,
+  modal: PropTypes.bool,
   children: PropTypes.oneOfType([
     PropTypes.arrayOf(PropTypes.node),
     PropTypes.node

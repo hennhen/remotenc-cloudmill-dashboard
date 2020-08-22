@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import {
   Container,
   Typography,
@@ -7,16 +7,39 @@ import {
   TableCell,
   TableHead,
   TableRow,
-  Button
+  Button,
+  Modal
 } from '@material-ui/core';
 import { UserContext } from '../context';
-import { useHistory } from 'react-router-dom';
-import { useAuth } from '../hooks';
+import axios from 'axios';
+import { Form } from '../components';
 
 const Jobs = () => {
-  const { user } = useContext(UserContext);
-  const { setAuth } = useAuth();
-  const history = useHistory();
+  const [modal, setModal] = useState(null);
+  const { user, setUser } = useContext(UserContext);
+
+  const submit = async ({ name }) => {
+    try {
+      const response = await axios.post('/job', { name });
+      setUser(response.data);
+      setModal(null);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const fields = [
+    {
+      required: true,
+      id: 'standard-required',
+      label: 'Name',
+      value: 'name'
+    },
+    {
+      label: 'G-Code',
+      value: 'gCode'
+    }
+  ];
 
   const contentNode =
     user.jobs.length !== 0 ? (
@@ -45,21 +68,33 @@ const Jobs = () => {
       <Typography variant='h1'>Jobs</Typography>
       {contentNode}
       <div style={{ marginTop: 12 }}>
-        <Button variant='contained' color='primary' onClick={() => {}}>
-          Create a new job
-        </Button>
         <Button
           variant='contained'
           color='primary'
-          style={{ float: 'right' }}
-          onClick={async () => {
-            await setAuth();
-            history.push('/');
+          onClick={() => {
+            setModal(
+              <Form
+                fields={fields}
+                title='Create a Job'
+                submit={submit}
+                modal
+              />
+            );
           }}
         >
-          Logout
+          Create a new job
         </Button>
       </div>
+      {
+        <Modal
+          open={Boolean(modal)}
+          onClose={() => {
+            setModal(false);
+          }}
+        >
+          <span>{modal}</span>
+        </Modal>
+      }
     </Container>
   );
 };

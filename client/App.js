@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
 import io from 'socket.io-client';
 import axios from 'axios';
-import { Auth, Dashboard, Jobs } from './containers';
+import { Auth, Dashboard, Jobs, CreateJob } from './containers';
 import { SocketContext, UserContext, AlertContext } from './context';
 import { PrivateRoute } from './components';
 import { useAuth } from './hooks';
@@ -74,6 +74,8 @@ const App = () => {
       <Switch>
         <PrivateRoute path='/dashboard' component={Dashboard} />
         <PrivateRoute path='/jobs' component={Jobs} />
+        <PrivateRoute path='/createjob' component={CreateJob} />
+        <PrivateRoute path='/dashboard' component={Dashboard} />
         <Route path='/'>{redirect || <Auth />}</Route>
       </Switch>
     </>

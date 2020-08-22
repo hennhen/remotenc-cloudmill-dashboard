@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 
 import { rem } from 'polished';
 
-const Header = ({ job, company }) => {
+const Header = ({ company }) => {
   const { setAuth } = useAuth();
   const history = useHistory();
 
@@ -18,7 +18,7 @@ const Header = ({ job, company }) => {
       <Grid item xs={4}>
         <Grid container justify='center'>
           <Typography variant='h5' style={{ fontWeight: 500 }}>
-            {job} / {company}
+            {company}
           </Typography>
         </Grid>
       </Grid>
@@ -41,7 +41,6 @@ const Header = ({ job, company }) => {
 };
 
 Header.propTypes = {
-  job: PropTypes.string,
   company: PropTypes.string
 };
 
