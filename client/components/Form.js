@@ -9,35 +9,37 @@ import {
 } from '@material-ui/core';
 import PropTypes from 'prop-types';
 
-const Form = ({ submit, title, fields }) => {
+const Form = ({ submit, title, fields, children }) => {
   const [inputs, setInputs] = useState({});
 
   const handleChange = (event, field) => {
+    const {
+      target: { value: newValue }
+    } = event;
     setInputs((prevInputs) => {
       const newInputs = { ...prevInputs };
-      newInputs[field.value] = event.target.value;
+      newInputs[field.value] = newValue;
       return newInputs;
     });
   };
 
   const handleKeyDown = (event, idx) => {
     if (event.keyCode === 13) {
-      if (idx === fields.length - 1) submit();
+      if (idx === fields.length - 1) submit(inputs);
     }
   };
 
   const fieldsNode = fields.map((field, idx) => (
-    <>
+    <React.Fragment key={idx}>
       <TextField
         {...field}
         value={inputs[field]}
-        key={idx}
         onChange={(event) => handleChange(event, field)}
         onKeyDown={(event) => handleKeyDown(event, idx)}
       ></TextField>
       <br />
       <br />
-    </>
+    </React.Fragment>
   ));
 
   return (
@@ -59,12 +61,13 @@ const Form = ({ submit, title, fields }) => {
                 variant='contained'
                 color='primary'
                 onClick={() => {
-                  submit(fields);
+                  submit(inputs);
                 }}
               >
                 Submit
               </Button>
             </div>
+            {children}
           </CardContent>
         </Card>
       </Grid>
@@ -75,7 +78,11 @@ const Form = ({ submit, title, fields }) => {
 Form.propTypes = {
   submit: PropTypes.func,
   title: PropTypes.string,
-  fields: PropTypes.array
+  fields: PropTypes.array,
+  children: PropTypes.oneOfType([
+    PropTypes.arrayOf(PropTypes.node),
+    PropTypes.node
+  ])
 };
 
 export default Form;
