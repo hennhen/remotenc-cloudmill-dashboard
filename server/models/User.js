@@ -14,10 +14,7 @@ const UserSchema = new mongoose.Schema({
     type: String,
     required: true
   },
-  job: {
-    type: String
-  },
-  gCode: {
+  jobs: {
     type: Array
   },
   date: {

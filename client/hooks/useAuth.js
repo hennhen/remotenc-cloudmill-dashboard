@@ -17,6 +17,7 @@ const useAuth = () => {
         setUser(user.data);
         return true;
       } catch (err) {
+        console.log('err');
         setAlert({
           type: 'info',
           message: 'Your session has expired, please log in again.'

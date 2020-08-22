@@ -29,7 +29,7 @@ router.post(
     try {
       let user = await User.findByIdAndUpdate(
         req.user.id,
-        { job, gCode },
+        { $push: { jobs: { name: job, gCode } } },
         { new: true }
       );
       res.json(user);
