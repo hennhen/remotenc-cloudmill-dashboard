@@ -10,7 +10,7 @@ router.post('/', (req, res) => {
     body: { socketID, signal }
   } = req;
 
-  io.to(socketID).emit('video', signal);
+  io.to(socketID).emit('rtc', signal);
   res.status(200).end();
 });
 

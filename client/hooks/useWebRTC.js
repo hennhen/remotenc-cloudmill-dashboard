@@ -16,13 +16,13 @@ const useWebRTC = () => {
 
   useEffect(() => {
     peer.current = buildPeer();
-    socket.on('video', (signal) => {
+    socket.on('rtc', (signal) => {
       peer.current.signal(signal);
     });
 
     return () => {
       disconnect.current = true;
-      socket.off('video');
+      socket.off('rtc');
       peer.current.destroy();
     };
   }, []);
@@ -42,7 +42,7 @@ const useWebRTC = () => {
     });
 
     newPeer.on('signal', (data) => {
-      socket.emit('video', {
+      socket.emit('rtc', {
         signal: data,
         socketID: socket.id
       });
@@ -60,9 +60,9 @@ const useWebRTC = () => {
 
     newPeer.on('close', () => {
       if (disconnect.current) return;
-      socket.off('video');
+      socket.off('rtc');
       peer.current = buildPeer();
-      socket.on('video', (signal) => {
+      socket.on('rtc', (signal) => {
         peer.current.signal(signal);
       });
     });

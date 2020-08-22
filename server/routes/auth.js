@@ -1,7 +1,5 @@
 const express = require('express');
 const router = express.Router();
-const tcp = require('../tcp').tcp();
-const ipSocketMap = require('../ipSocketMap');
 const bcrypt = require('bcryptjs');
 const auth = require('../middleware/auth');
 const jwt = require('jsonwebtoken');
@@ -69,8 +67,6 @@ router.post(
         { expiresIn: '5 days' },
         (err, token) => {
           if (err) throw err;
-          // TODO: Enter data object to function
-          if (!config.dev.mach3) tcpConnect();
           res.json({ token });
         }
       );
@@ -80,24 +76,5 @@ router.post(
     }
   }
 );
-
-const tcpConnect = (data) => {
-  const { targetIP, socketID } = data;
-  tcp.sendAuthRequest(data, (result) => {
-    //TODO: Directly get result's status code into the status code
-    const JSONresult = JSON.parse(result);
-    console.log(JSONresult);
-
-    if (JSONresult.status == 200) {
-      // Auth Success
-      console.log('Login Sucess');
-      console.log(targetIP, socketID);
-      ipSocketMap[targetIP] = socketID;
-    } else {
-      // Auth Failure
-      console.log('Login Failed. Incorrect Password');
-    }
-  });
-};
 
 module.exports = router;

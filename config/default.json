@@ -1,13 +1,7 @@
 {
-  "expressServerPort": 3333,
-  "portRedis": 6379,
-  "udpStreamReceivePort": 57575,
-  "localIP": "0.0.0.0",
-  "tcpPort": 54545,
-  "socketPort": 8000,
+  "port": 3333,
   "dev": {
-    "mach3": true,
-    "webrtc": true
+    "webrtc": false
   },
   "mongoURI": "mongodb+srv://admin:12345@cluster0.dye1h.mongodb.net/<dbname>?retryWrites=true&w=majority",
   "jwtSecret": "mySecret",
