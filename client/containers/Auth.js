@@ -16,10 +16,14 @@ const Auth = () => {
   const { alert, setAlert } = useContext(AlertContext);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const { login } = useAuth();
+  const [company, setCompany] = useState('');
+  const [type, setType] = useState('Login');
+
+  const { login, register } = useAuth();
 
   const submit = () => {
-    login(email, password);
+    if (type === 'Login') login(email, password);
+    else register(company, email, password);
   };
 
   const handleKeyDown = (e) => {
@@ -27,6 +31,20 @@ const Auth = () => {
       submit();
     }
   };
+
+  const registerNode = (
+    <>
+      <TextField
+        required
+        id='standard-required'
+        label='Company'
+        value={company}
+        onChange={(event) => setCompany(event.target.value)}
+      />
+      <br />
+      <br />
+    </>
+  );
 
   return (
     <Grid
@@ -62,8 +80,9 @@ const Auth = () => {
         <Card>
           <CardContent>
             <Typography variant='h5' gutterBottom>
-              Log in
+              {type}
             </Typography>
+            {type === 'Register' ? registerNode : null}
             <TextField
               required
               id='standard-required'
@@ -85,6 +104,19 @@ const Auth = () => {
             <div style={{ marginTop: 12 }}>
               <Button variant='contained' color='primary' onClick={submit}>
                 Submit
+              </Button>
+            </div>
+            <div style={{ marginTop: 12 }}>
+              <Button
+                variant='contained'
+                color='primary'
+                onClick={() =>
+                  setType((prevType) =>
+                    prevType === 'Login' ? 'Register' : 'Login'
+                  )
+                }
+              >
+                Switch to {type === 'Login' ? 'register' : 'login'}
               </Button>
             </div>
           </CardContent>

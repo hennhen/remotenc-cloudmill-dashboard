@@ -1,7 +1,7 @@
 {
   "port": 3333,
   "dev": {
-    "webrtc": false
+    "webrtc": true
   },
   "mongoURI": "mongodb+srv://admin:12345@cluster0.dye1h.mongodb.net/<dbname>?retryWrites=true&w=majority",
   "jwtSecret": "mySecret",

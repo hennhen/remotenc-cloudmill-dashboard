@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
 import io from 'socket.io-client';
 import axios from 'axios';
-import { Auth, Dashboard } from './containers';
+import { Auth, Dashboard, Jobs } from './containers';
 import { SocketContext, UserContext, AlertContext } from './context';
 import { PrivateRoute } from './components';
 import { useAuth } from './hooks';
@@ -19,7 +19,7 @@ const App = () => {
   useEffect(() => {
     const auth = async () => {
       const response = await setAuth(localStorage.token);
-      if (response) setRedirect(<Redirect to='/dashboard' />);
+      if (response) setRedirect(<Redirect to='/jobs' />);
     };
 
     const socketConnect = async () => {
@@ -47,6 +47,7 @@ const App = () => {
   const routes = (
     <Switch>
       <PrivateRoute path='/dashboard' component={Dashboard} />
+      <PrivateRoute path='/jobs' component={Jobs} />
       <Route path='/'>{redirect || <Auth />}</Route>
     </Switch>
   );

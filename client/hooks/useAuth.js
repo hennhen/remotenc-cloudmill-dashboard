@@ -14,14 +14,8 @@ const useAuth = () => {
       localStorage.setItem('token', token);
       try {
         const user = await axios.get('/auth');
-        if (user.data.job && user.data.gCode) {
-          setUser(user.data);
-          return true;
-        }
-        setAlert({
-          type: 'error',
-          message: 'Your account has no job set yet.'
-        });
+        setUser(user.data);
+        return true;
       } catch (err) {
         setAlert({
           type: 'info',
@@ -42,7 +36,7 @@ const useAuth = () => {
         password: password
       });
       await setAuth(response.data.token);
-      history.push('/dashboard');
+      history.push('/jobs');
     } catch (err) {
       setAlert({
         type: 'error',
@@ -51,7 +45,24 @@ const useAuth = () => {
     }
   };
 
-  return { setAuth, login };
+  const register = async (company, email, password) => {
+    try {
+      const response = await axios.post('/users', {
+        company: company,
+        email: email,
+        password: password
+      });
+      await setAuth(response.data.token);
+      history.push('/jobs');
+    } catch (err) {
+      setAlert({
+        type: 'error',
+        message: 'Please fill in all fields.'
+      });
+    }
+  };
+
+  return { setAuth, login, register };
 };
 
 export default useAuth;
