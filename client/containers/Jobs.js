@@ -10,9 +10,13 @@ import {
   Button
 } from '@material-ui/core';
 import { UserContext } from '../context';
+import { useHistory } from 'react-router-dom';
+import { useAuth } from '../hooks';
 
 const Jobs = () => {
   const { user } = useContext(UserContext);
+  const { setAuth } = useAuth();
+  const history = useHistory();
 
   const contentNode =
     user.jobs.length !== 0 ? (
@@ -40,14 +44,22 @@ const Jobs = () => {
     <Container>
       <Typography variant='h1'>Jobs</Typography>
       {contentNode}
-      <Button
-        variant='contained'
-        color='primary'
-        onClick={() => {}}
-        style={{ marginTop: 12 }}
-      >
-        Create a new job
-      </Button>
+      <div style={{ marginTop: 12 }}>
+        <Button variant='contained' color='primary' onClick={() => {}}>
+          Create a new job
+        </Button>
+        <Button
+          variant='contained'
+          color='primary'
+          style={{ float: 'right' }}
+          onClick={async () => {
+            await setAuth();
+            history.push('/');
+          }}
+        >
+          Logout
+        </Button>
+      </div>
     </Container>
   );
 };
