@@ -5,14 +5,17 @@ import './index.css';
 import {
   SocketContextProvider,
   UserContextProvider,
-  AlertContextProvider
+  AlertContextProvider,
+  JobContextProvider
 } from './context';
 
 ReactDOM.render(
   <UserContextProvider>
     <SocketContextProvider>
       <AlertContextProvider>
-        <App />
+        <JobContextProvider>
+          <App />
+        </JobContextProvider>
       </AlertContextProvider>
     </SocketContextProvider>
   </UserContextProvider>,

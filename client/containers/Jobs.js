@@ -1,4 +1,5 @@
 import React, { useContext, useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import {
   Container,
   Typography,
@@ -10,13 +11,15 @@ import {
   Button,
   Modal
 } from '@material-ui/core';
-import { UserContext } from '../context';
+import { UserContext, JobContext } from '../context';
 import axios from 'axios';
 import { Form } from '../components';
 
 const Jobs = () => {
   const [modal, setModal] = useState(null);
   const { user, setUser } = useContext(UserContext);
+  const { setJob } = useContext(JobContext);
+  const history = useHistory();
 
   const submit = async ({ name }) => {
     try {
@@ -54,7 +57,33 @@ const Jobs = () => {
           {user.jobs.map((job, idx) => (
             <TableRow key={idx}>
               <TableCell>{job.name}</TableCell>
-              <TableCell>Pending</TableCell>
+              <TableCell>
+                <Button
+                  variant='contained'
+                  color='primary'
+                  onClick={() => {
+                    // TODO: Determine if Job is ready to be viewed
+                    setJob({
+                      ...job,
+                      gCode: [
+                        'temp GCODE',
+                        'temp GCODE',
+                        'temp GCODE',
+                        'temp GCODE',
+                        'temp GCODE',
+                        'temp GCODE',
+                        'temp GCODE',
+                        'temp GCODE',
+                        'temp GCODE',
+                        'temp GCODE'
+                      ]
+                    });
+                    history.push('/dashboard');
+                  }}
+                >
+                  View Job
+                </Button>
+              </TableCell>
             </TableRow>
           ))}
         </TableBody>

@@ -1,4 +1,5 @@
 import React, { useContext, useState, useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
 import { client } from 'config';
 import {
   Container,
@@ -20,7 +21,8 @@ import { useWebRTC } from '../hooks';
 import { rem } from 'polished';
 import { withStyles } from '@material-ui/core/styles';
 import { green, red, yellow } from '@material-ui/core/colors';
-import { SocketContext, UserContext } from '../context';
+import ArrowBackIcon from '@material-ui/icons/ArrowBack';
+import { SocketContext, JobContext } from '../context';
 
 const topHeight = rem(`${client.topHeight}px`);
 const bottomHeight = rem(`${client.bottomHeight}px`);
@@ -57,9 +59,10 @@ const YellowButton = withStyles((theme) => ({
 
 const Dashboard = () => {
   const { socket } = useContext(SocketContext);
-  const { user } = useContext(UserContext);
+  const { job, setJob } = useContext(JobContext);
   const [data, setData] = useState({ x: 0, y: 0, z: 0, a: 0, c: 0 });
   const [gCodeIdx, setGCodeIdx] = useState(-1);
+  const history = useHistory();
 
   const [videoOne, videoTwo, stream] = useWebRTC();
 
@@ -82,7 +85,18 @@ const Dashboard = () => {
     <Container>
       <Grid container spacing={3}>
         <Grid item xs={2}>
-          <SideBar />
+          <div style={{ padding: `${rem('10px')} 0` }}>
+            <ArrowBackIcon
+              fontSize='large'
+              color='primary'
+              style={{ cursor: 'pointer' }}
+              onClick={() => {
+                setJob({});
+                history.push('/jobs');
+              }}
+            />
+          </div>
+          <SideBar name={job.name} />
         </Grid>
         <Divider orientation='vertical' flexItem />
         <Grid item xs={9}>
@@ -132,7 +146,7 @@ const Dashboard = () => {
                 alignItems='stretch'
                 style={{ height: topHeight }}
               >
-                <GCodeBox gCode={user.gCode} currentIdx={gCodeIdx} />
+                <GCodeBox gCode={job.gCode} currentIdx={gCodeIdx} />
               </Grid>
             </Grid>
           </Grid>

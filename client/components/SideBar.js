@@ -2,8 +2,9 @@ import React from 'react';
 import { Grid, Typography } from '@material-ui/core';
 import { CircularProgressWithLabel, Circle } from '.';
 import { green } from '@material-ui/core/colors';
+import PropTypes from 'prop-types';
 
-const SideBar = () => {
+const SideBar = ({ name }) => {
   return (
     <Grid
       container
@@ -12,6 +13,11 @@ const SideBar = () => {
       alignItems='center'
       spacing={3}
     >
+      <Grid item>
+        <Typography variant='h5' align='center'>
+          {name}
+        </Typography>
+      </Grid>
       <Grid item>
         <CircularProgressWithLabel value={100} />
       </Grid>
@@ -39,6 +45,10 @@ const SideBar = () => {
       </Grid>
     </Grid>
   );
+};
+
+SideBar.propTypes = {
+  name: PropTypes.string
 };
 
 export default SideBar;
