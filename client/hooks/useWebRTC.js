@@ -1,4 +1,4 @@
-import { useEffect, useRef, useContext } from 'react';
+import { useEffect, useState, useRef, useContext } from 'react';
 import { SocketContext } from '../context';
 import Peer from 'simple-peer';
 
@@ -7,6 +7,7 @@ const useWebRTC = () => {
 
   const videoOne = useRef();
   const videoTwo = useRef();
+  const [data, setData] = useState({ x: 0, y: 0, z: 0, a: 0, c: 0 });
 
   const { socket } = useContext(SocketContext);
 
@@ -54,6 +55,11 @@ const useWebRTC = () => {
       else videoTwo.current.srcObject = stream;
     });
 
+    newPeer.on('data', (dataString) => {
+      const data = JSON.parse(dataString);
+      setData(data);
+    });
+
     newPeer.on('error', (err) => {
       console.error(err);
     });
@@ -70,7 +76,7 @@ const useWebRTC = () => {
     return newPeer;
   };
 
-  return [videoOne, videoTwo, connected];
+  return { videoOne, videoTwo, data, connected };
 };
 
 export default useWebRTC;

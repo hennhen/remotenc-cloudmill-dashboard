@@ -60,23 +60,18 @@ const YellowButton = withStyles((theme) => ({
 const Dashboard = () => {
   const { socket } = useContext(SocketContext);
   const { job, setJob } = useContext(JobContext);
-  const [data, setData] = useState({ x: 0, y: 0, z: 0, a: 0, c: 0 });
+  // const [data, setData] = useState({ x: 0, y: 0, z: 0, a: 0, c: 0 });
   const [gCodeIdx, setGCodeIdx] = useState(-1);
   const history = useHistory();
 
-  const [videoOne, videoTwo, stream] = useWebRTC();
+  const { videoOne, videoTwo, data, connected } = useWebRTC();
 
   useEffect(() => {
-    socket.on('udpData', (data) => {
-      const { coors } = JSON.parse(data);
-      setData({ ...coors, a: 0, c: 0 });
-    });
     socket.on('gcode', (idx) => {
       setGCodeIdx(idx);
     });
 
     return () => {
-      socket.off('udpData');
       socket.off('gcode');
     };
   }, []);
@@ -109,8 +104,8 @@ const Dashboard = () => {
                 alignItems='flex-start'
                 style={{ height: topHeight }}
               >
-                <Grid item>{stream && <Video ref={videoOne} />}</Grid>
-                <Grid item>{stream && <Video ref={videoTwo} />}</Grid>
+                <Grid item>{connected && <Video ref={videoOne} />}</Grid>
+                <Grid item>{connected && <Video ref={videoTwo} />}</Grid>
               </Grid>
             </Grid>
             <Grid item xs={4}>
