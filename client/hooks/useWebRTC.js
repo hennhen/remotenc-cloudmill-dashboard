@@ -34,9 +34,12 @@ const useWebRTC = () => {
       config: {
         iceServers: [
           {
-            urls: 'turn:18.163.61.138:3478',
-            username: 'admin',
-            credential: '12345'
+            urls: 'stun:stun.remotenc.com:5349'
+          },
+          {
+            urls: 'turn:turn.remotenc.com:5349',
+            username: 'user',
+            credential: '12345678'
           }
         ]
       }
