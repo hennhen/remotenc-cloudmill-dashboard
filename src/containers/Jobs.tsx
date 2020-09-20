@@ -11,23 +11,34 @@ import {
   Button,
   Modal
 } from '@material-ui/core';
-import { UserContext, JobContext } from '../context';
-import axios from 'axios';
+import { UserContext, JobContext, AlertContext } from '../context';
+import { post } from '../hooks';
 import { Form, Field } from '../components';
 
 const Jobs = () => {
   const [modal, setModal] = useState<React.ReactNode>(null);
   const { user, setUser } = useContext(UserContext);
   const { setJob } = useContext(JobContext);
+  const { setAlert } = useContext(AlertContext);
   const history = useHistory();
 
-  const submit = async ({ name }: { [key: string]: string }) => {
+  const submit = async ({ name, material }: { [key: string]: string }) => {
+    if (!user) return;
     try {
-      const response = await axios.post('/job', { name });
-      setUser(response.data);
+      const data = await post('/user/job/', {
+        name,
+        material,
+        cam_file: 'cam_file',
+        gcode_file: 'gcode_file'
+      });
+
+      setUser({ ...user, jobs: [...user.jobs, data] });
       setModal(null);
     } catch (err) {
-      console.error(err);
+      setAlert({
+        type: 'error',
+        message: 'Your session has expired, please log in again.'
+      });
     }
   };
 
@@ -39,8 +50,10 @@ const Jobs = () => {
       value: 'name'
     },
     {
-      label: 'G-Code',
-      value: 'gCode'
+      required: true,
+      id: 'standard-required',
+      label: 'Material',
+      value: 'material'
     }
   ];
 
@@ -50,6 +63,7 @@ const Jobs = () => {
         <TableHead>
           <TableRow>
             <TableCell>Name</TableCell>
+            <TableCell>Material</TableCell>
             <TableCell>Status</TableCell>
           </TableRow>
         </TableHead>
@@ -57,6 +71,7 @@ const Jobs = () => {
           {user.jobs.map((job, idx) => (
             <TableRow key={idx}>
               <TableCell>{job.name}</TableCell>
+              <TableCell>{job.material}</TableCell>
               <TableCell>
                 <Button
                   variant='contained'
@@ -80,8 +95,9 @@ const Jobs = () => {
                     });
                     history.push('/dashboard');
                   }}
+                  disabled={job.status !== 'Ready'}
                 >
-                  View Job
+                  {job.status}
                 </Button>
               </TableCell>
             </TableRow>

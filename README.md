@@ -9,5 +9,5 @@ Dashboard to monitor and control CNC milling machines.
 yarn
 
 # run react app
-yarn start
+yarn dev
 ```

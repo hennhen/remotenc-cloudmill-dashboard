@@ -3,6 +3,8 @@ import React, { useState } from 'react';
 export type Job = {
   name: string;
   gCode: string[];
+  status: 'Pending' | 'Ready';
+  material: string;
 };
 
 type JobContextProps = {

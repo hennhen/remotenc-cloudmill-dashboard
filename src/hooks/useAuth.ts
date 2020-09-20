@@ -3,6 +3,24 @@ import { UserContext, AlertContext } from '../context';
 import { useHistory } from 'react-router-dom';
 import axios from 'axios';
 
+export const get = async (path: string) => {
+  const response = await axios.get(path);
+
+  const { status, data } = response.data;
+  if (status !== 'success') throw new Error('Something went wrong.');
+
+  return data;
+};
+
+export const post = async (path: string, content: any) => {
+  const response = await axios.post(path, content);
+
+  const { status, data } = response.data;
+  if (status !== 'success') throw new Error('Something went wrong.');
+
+  return data;
+};
+
 const useAuth = () => {
   const { setUser } = useContext(UserContext);
   const { setAlert } = useContext(AlertContext);
@@ -13,19 +31,18 @@ const useAuth = () => {
     localStorage.setItem('token', token);
   };
 
-  const fetchJobs = async () => {
-    const { data: jobs } = await axios.get('/user/job');
-    return jobs;
-  };
-
   const setAuth = async (token?: string) => {
     if (token) {
       storeToken(token);
       try {
-        const user = await axios.get('/auth/user');
-        const { company_name: company } = user.data;
-        const jobs = await fetchJobs();
+        const data = await get('/auth/user');
+
+        const { company_name: company } = data;
+
+        const jobs = await get('/user/job');
+
         setUser({ company, jobs });
+
         return true;
       } catch (err) {
         setAlert({
@@ -42,17 +59,22 @@ const useAuth = () => {
 
   const login = async (email: string, password: string) => {
     try {
-      const response = await axios.post('/auth/login', {
+      const data = await post('/auth/login/', {
         email: email,
         password: password
       });
+
       const {
         token,
         user: { company_name: company }
-      } = response.data;
+      } = data;
+
       storeToken(token);
-      const jobs = await fetchJobs();
+
+      const jobs = await get('/user/job');
+
       setUser({ company, jobs });
+
       history.push('/jobs');
     } catch (err) {
       setAlert({
@@ -64,13 +86,14 @@ const useAuth = () => {
 
   const register = async (company: string, email: string, password: string) => {
     try {
-      const response = await axios.post('/auth/register', {
+      const data = await post('/auth/register/', {
         email,
         password1: password,
         password2: password,
         company_name: company
       });
-      await setAuth(response.data.token);
+
+      await setAuth(data.token);
       history.push('/jobs');
     } catch (err) {
       setAlert({
