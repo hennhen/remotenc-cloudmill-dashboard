@@ -8,7 +8,7 @@ import { useAuth } from './hooks';
 import { Snackbar } from '@material-ui/core';
 import { Alert } from '@material-ui/lab';
 
-axios.defaults.baseURL = 'http://localhost:3333/api';
+axios.defaults.baseURL = 'https://cloudmill-core.herokuapp.com/api';
 
 const App = () => {
   const { user } = useContext(UserContext);

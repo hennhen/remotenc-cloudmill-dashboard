@@ -55,7 +55,7 @@ const Form = ({ submit, title, fields, modal, children }: FormProps) => {
     <React.Fragment key={idx}>
       <TextField
         {...field}
-        value={inputs[field.value]}
+        value={inputs[field.value] || ''}
         onChange={(event) => handleChange(event, field)}
         onKeyDown={(event) => handleKeyDown(event, idx)}
       ></TextField>

@@ -8,6 +8,6 @@ Dashboard to monitor and control CNC milling machines.
 # install dependencies
 yarn
 
-# run both server and client at root directory
-yarn dev
+# run react app
+yarn start
 ```
