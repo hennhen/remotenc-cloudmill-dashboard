@@ -12,7 +12,6 @@ axios.defaults.baseURL = 'https://cloudmill-core.herokuapp.com/api';
 
 const App = () => {
   const { user } = useContext(UserContext);
-  // const { setSocket } = useContext(SocketContext);
   const { alert, setAlert } = useContext(AlertContext);
   const { setAuth } = useAuth();
   const [redirect, setRedirect] = useState<React.ReactNode>(null);

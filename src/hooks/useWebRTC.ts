@@ -1,28 +1,48 @@
-import { useEffect, useState, useRef } from 'react';
-import Peer from 'simple-peer';
+import { AlertContext } from '../context';
 
-const useWebRTC = () => {
-  const videoOne = useRef<HTMLVideoElement>(null);
-  const videoTwo = useRef<HTMLVideoElement>(null);
+import { useEffect, useState, useRef, useContext } from 'react';
+import Peer from 'simple-peer';
+import io from 'socket.io-client';
+import { useHistory } from 'react-router-dom';
+
+const useWebRTC = (ip: string) => {
   const [data, setData] = useState({ x: 0, y: 0, z: 0, a: 0, c: 0 });
 
-  // const { socket } = useContext(SocketContext);
-
+  const videoOne = useRef<HTMLVideoElement>(null);
+  const videoTwo = useRef<HTMLVideoElement>(null);
+  const socket = useRef<any>(null);
   const peer = useRef<Peer.Instance>();
-
   const connected = useRef<boolean>();
-
   const disconnect = useRef<boolean>();
 
+  const { setAlert } = useContext(AlertContext);
+
+  const history = useHistory();
+
   useEffect(() => {
-    peer.current = buildPeer();
-    // socket.on('rtc', (signal) => {
-    //   peer.current.signal(signal);
-    // });
+    const connectSocket = async () => {
+      try {
+        socket.current = await io(ip);
+        socket.current.on('connect', () => {
+          peer.current = buildPeer();
+        });
+        socket.current.on('rtc', (signal: string) => {
+          if (peer.current) peer.current.signal(signal);
+        });
+      } catch (err) {
+        setAlert({
+          type: 'error',
+          message: 'Unable to connect to server, please come back later.'
+        });
+        history.push('/jobs');
+      }
+    };
+
+    connectSocket();
 
     return () => {
       disconnect.current = true;
-      // socket.off('rtc');
+      socket.current.close();
       if (peer.current) peer.current.destroy();
     };
   }, []);
@@ -44,11 +64,8 @@ const useWebRTC = () => {
       }
     });
 
-    newPeer.on('signal', (data) => {
-      // socket.emit('rtc', {
-      //   signal: data,
-      //   socketID: socket.id
-      // });
+    newPeer.on('signal', (signal: string) => {
+      socket.current.emit('rtc', signal);
     });
 
     newPeer.on('stream', (stream) => {
@@ -69,11 +86,11 @@ const useWebRTC = () => {
 
     newPeer.on('close', () => {
       if (disconnect.current) return;
-      // socket.off('rtc');
+      socket.current.off('rtc');
       peer.current = buildPeer();
-      // socket.on('rtc', (signal) => {
-      //   peer.current.signal(signal);
-      // });
+      socket.current.on('rtc', (signal: string) => {
+        if (peer.current) peer.current.signal(signal);
+      });
     });
 
     return newPeer;

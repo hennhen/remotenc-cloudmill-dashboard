@@ -1,10 +1,15 @@
 import React, { useState } from 'react';
 
+export type Machine = {
+  ip: string;
+};
+
 export type Job = {
   name: string;
   gCode: string[];
   status: 'Pending' | 'Ready';
   material: string;
+  machine: Machine;
 };
 
 type JobContextProps = {

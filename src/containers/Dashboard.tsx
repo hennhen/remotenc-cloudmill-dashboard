@@ -56,23 +56,13 @@ const YellowButton = withStyles((theme) => ({
 }))(Button);
 
 const Dashboard = () => {
-  // const { socket } = useContext(SocketContext);
   const { job, setJob } = useContext(JobContext);
-  // const [data, setData] = useState({ x: 0, y: 0, z: 0, a: 0, c: 0 });
   const [gCodeIdx, setGCodeIdx] = useState(-1);
   const history = useHistory();
 
-  const { videoOne, videoTwo, data, connected } = useWebRTC();
-
-  // useEffect(() => {
-  //   socket.on('gcode', (idx) => {
-  //     setGCodeIdx(idx);
-  //   });
-
-  //   return () => {
-  //     socket.off('gcode');
-  //   };
-  // }, []);
+  const { videoOne, videoTwo, data, connected } = useWebRTC(
+    (job && job.machine.ip) || 'none'
+  );
 
   const dashboardNode = job ? (
     <Container>
