@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 
 export type Machine = {
-  ip: string;
+  ip_address: string;
 };
 
 export type Job = {
   name: string;
-  gCode: string[];
-  status: 'Pending' | 'Ready';
+  gcode_array: string[];
+  status: 'Pending' | 'Started' | 'Complete';
   material: string;
   machine: Machine;
 };

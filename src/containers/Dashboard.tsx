@@ -61,7 +61,7 @@ const Dashboard = () => {
   const history = useHistory();
 
   const { videoOne, videoTwo, data, connected } = useWebRTC(
-    (job && job.machine.ip) || 'none'
+    (job && job.machine.ip_address) || 'none'
   );
 
   const dashboardNode = job ? (
@@ -129,7 +129,7 @@ const Dashboard = () => {
                 alignItems='stretch'
                 style={{ height: topHeight }}
               >
-                <GCodeBox gCode={job.gCode} currentIdx={gCodeIdx} />
+                <GCodeBox gCode={job.gcode_array} currentIdx={gCodeIdx} />
               </Grid>
             </Grid>
           </Grid>

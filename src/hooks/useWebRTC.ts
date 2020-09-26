@@ -24,6 +24,7 @@ const useWebRTC = (ip: string) => {
       try {
         socket.current = await io(ip);
         socket.current.on('connect', () => {
+          console.log('socket connected');
           peer.current = buildPeer();
         });
         socket.current.on('rtc', (signal: string) => {
@@ -80,8 +81,8 @@ const useWebRTC = (ip: string) => {
       setData(data);
     });
 
-    newPeer.on('error', (err) => {
-      console.error(err);
+    newPeer.on('error', (err: any) => {
+      console.error(err.code);
     });
 
     newPeer.on('close', () => {

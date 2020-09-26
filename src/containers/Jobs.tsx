@@ -78,24 +78,10 @@ const Jobs = () => {
                   color='primary'
                   onClick={() => {
                     // TODO: Determine if Job is ready to be viewed
-                    setJob({
-                      ...job,
-                      gCode: [
-                        'temp GCODE',
-                        'temp GCODE',
-                        'temp GCODE',
-                        'temp GCODE',
-                        'temp GCODE',
-                        'temp GCODE',
-                        'temp GCODE',
-                        'temp GCODE',
-                        'temp GCODE',
-                        'temp GCODE'
-                      ]
-                    });
+                    setJob(job);
                     history.push('/dashboard');
                   }}
-                  disabled={job.status !== 'Ready'}
+                  disabled={job.status !== 'Started'}
                 >
                   {job.status}
                 </Button>
