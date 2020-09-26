@@ -57,7 +57,6 @@ const YellowButton = withStyles((theme) => ({
 
 const Dashboard = () => {
   const { job, setJob } = useContext(JobContext);
-  const [gCodeIdx, setGCodeIdx] = useState(-1);
   const history = useHistory();
 
   const { videoOne, videoTwo, data, connected } = useWebRTC(
@@ -129,7 +128,7 @@ const Dashboard = () => {
                 alignItems='stretch'
                 style={{ height: topHeight }}
               >
-                <GCodeBox gCode={job.gcode_array} currentIdx={gCodeIdx} />
+                <GCodeBox gCode={job.gcode_array} currentIdx={data.line_num} />
               </Grid>
             </Grid>
           </Grid>
